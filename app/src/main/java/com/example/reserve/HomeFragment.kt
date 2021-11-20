@@ -20,7 +20,6 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -30,7 +29,7 @@ class HomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
         viewPager = view.findViewById(R.id.viewPager2)
-        viewPager.adapter = ViewPagerAdapter(this);
+        viewPager.adapter = ViewPagerAdapter(this)
 
         tabLayout = view.findViewById(R.id.tabLayout2)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->

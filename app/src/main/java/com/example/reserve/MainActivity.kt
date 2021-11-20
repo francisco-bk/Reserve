@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
         viewPager = findViewById(R.id.viewPager)
         viewPager.isUserInputEnabled = false
-        viewPager.adapter = ViewPagerAdapter(this);
+        viewPager.adapter = ViewPagerAdapter(this)
 
         tabLayout = findViewById(R.id.tabLayout)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
