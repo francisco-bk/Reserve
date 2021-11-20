@@ -26,32 +26,48 @@
 
         <TextView
             android:id="@+id/buildingName"
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:text="UPSON HALL" />
+            android:text="Upson Hall"
+            android:textSize="16dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/grey"/>
 
         <TextView
             android:id="@+id/roomName"
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/buildingName"
+            android:layout_below="@id/buildingName"
+            android:layout_marginBottom="10dp"
             android:text="Upson 216"
-            android:layout_marginBottom="30dp"/>
+            android:textSize="24dp"
+            android:textStyle="bold" />
 
-        <ImageView
+        <androidx.cardview.widget.CardView
+            android:id="@+id/imageCard"
             android:layout_width="100dp"
             android:layout_height="80dp"
-            android:layout_alignBottom="@id/divider1"
+            android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="10dp"
-            android:background="@color/black" />
+            android:foregroundGravity="center"
+            app:cardCornerRadius="20dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/black"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop" />
+
+        </androidx.cardview.widget.CardView>
 
         <View
             android:id="@+id/divider1"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@id/roomName"
-            android:layout_marginVertical="10dp"
+            android:layout_below="@id/imageCard"
+            android:layout_marginVertical="15dp"
             android:background="@android:color/darker_gray" />
 
         <TextView
@@ -60,15 +76,20 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/divider1"
             android:layout_alignParentLeft="true"
-            android:text="Date" />
+            android:text="Start Date"
+            android:textSize="16dp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/textTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/divider1"
+            android:layout_alignLeft="@id/timeButton"
             android:layout_alignParentRight="true"
-            android:text="Time" />
+            android:text="Time"
+            android:textSize="16dp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/dateButton"
@@ -97,7 +118,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@id/timeButton"
-            android:layout_marginVertical="10dp"
+            android:layout_marginVertical="15dp"
             android:background="@android:color/darker_gray" />
 
         <TextView
@@ -105,22 +126,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/divider2"
-            android:text="Required Agreement" />
+            android:text="Required Agreement"
+            android:textSize="16dp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/bodyRequiredAgree"
-            android:layout_width="300dp"
+            android:layout_width="260dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/titleRequiredAgree"
             android:layout_alignParentLeft="true"
-            android:text="I agree to be bound by the policies and procedures concerning the use of space and resources at Cornell University." />
+            android:text="I agree to be bound by the policies and procedures concerning the use of space and resources at Cornell University."
+            android:textColor="@color/grey" />
 
         <CheckBox
             android:id="@+id/checkBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/divider2"
-            android:layout_alignParentRight="true" />
+            android:layout_alignParentRight="true"
+            android:buttonTint="@color/black"
+            android:scaleX="1.25"
+            android:scaleY="1.25" />
     </RelativeLayout>
 
     <View
