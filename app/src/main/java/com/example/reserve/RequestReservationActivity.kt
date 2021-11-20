@@ -5,19 +5,19 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.format.DateUtils
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.ImageButton
+import android.widget.*
 import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
+
 
 class RequestReservationActivity : AppCompatActivity() {
 
     private lateinit var backButton: ImageButton
     private lateinit var reserveButton: Button
     private lateinit var checkBox: CheckBox
-    private lateinit var startDate: Button
-    private lateinit var endDate: Button
+    private lateinit var dateButton: Button
+    private lateinit var timeButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,8 +26,8 @@ class RequestReservationActivity : AppCompatActivity() {
         backButton = findViewById(R.id.backButton)
         reserveButton = findViewById(R.id.reserveButton)
         checkBox = findViewById(R.id.checkBox)
-        startDate = findViewById(R.id.startDate)
-        endDate = findViewById(R.id.endDate)
+        dateButton = findViewById(R.id.dateButton)
+        timeButton = findViewById(R.id.timeButton)
 
         reserveButton.isEnabled = false
         reserveButton.setBackgroundColor(Color.GRAY)
@@ -39,7 +39,7 @@ class RequestReservationActivity : AppCompatActivity() {
         val calendarConstraints = CalendarConstraints.Builder()
             .setStart(today)
             .setEnd(today + DateUtils.YEAR_IN_MILLIS)
-            // .setValidator() // TODO: Add date validator
+             .setValidator(DateValidatorPointForward.from(today))
 
         val datePicker = MaterialDatePicker.Builder.datePicker()
             .setTitleText("Select date")
@@ -47,19 +47,16 @@ class RequestReservationActivity : AppCompatActivity() {
             .setCalendarConstraints(calendarConstraints.build())
             .build()
 
-
-
         datePicker.addOnPositiveButtonClickListener {
-            startDate.text = datePicker.headerText
-            endDate.text = datePicker.headerText
+            dateButton.text = datePicker.headerText
         }
 
-        startDate.setOnClickListener {
+        dateButton.setOnClickListener {
             datePicker.show(fragmentManager, "DATE_PICKER")
         }
 
-        endDate.setOnClickListener {
-            datePicker.show(fragmentManager, "DATE_PICKER")
+        timeButton.setOnClickListener {
+            // TODO: add way to select reservation time
         }
 
         backButton.setOnClickListener {
