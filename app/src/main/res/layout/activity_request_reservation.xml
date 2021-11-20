@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/divider1"
             android:layout_alignParentLeft="true"
-            android:text="End Time" />
+            android:text="Start Date" />
 
         <TextView
             android:id="@+id/textStartTime"
@@ -70,21 +70,28 @@
             android:layout_alignParentRight="true"
             android:text="Start Time" />
 
-        <Spinner
+        <Button
             android:id="@+id/startDate"
+            style="?android:spinnerStyle"
             android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/textStartDate"
-            android:layout_alignParentLeft="true" />
+            android:layout_alignParentLeft="true"
+            android:text="Jan 1, 2021"
+            android:textColor="@color/black" />
 
-        <Spinner
+
+        <Button
             android:id="@+id/startTime"
-            android:layout_width="130dp"
+            style="?android:spinnerStyle"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/textStartTime"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/startDate" />
+            android:layout_toRightOf="@id/startDate"
+            android:text="1:00 PM"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/textEndDate"
@@ -102,21 +109,27 @@
             android:layout_alignParentRight="true"
             android:text="End Time" />
 
-        <Spinner
+        <Button
             android:id="@+id/endDate"
+            style="?android:spinnerStyle"
             android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/textEndDate"
-            android:layout_alignParentLeft="true" />
+            android:layout_alignParentLeft="true"
+            android:text="Jan 1, 2021"
+            android:textColor="@color/black" />
 
-        <Spinner
+        <Button
             android:id="@+id/endTime"
-            android:layout_width="130dp"
+            style="?android:spinnerStyle"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/textEndTime"
             android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/endDate"
-            android:layout_marginLeft="10dp"/>
+            android:text="2:00 PM"
+            android:textColor="@color/black" />
 
         <View
             android:id="@+id/divider2"
