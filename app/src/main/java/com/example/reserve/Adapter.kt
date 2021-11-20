@@ -32,7 +32,8 @@ class Adapter(private val rooms: List<Room>) : RecyclerView.Adapter<Adapter.View
 
         holder.itemView.setOnClickListener {
             val intent = Intent(context, ExpandedCardActivity::class.java).apply {
-                // TODO: add putExtras
+                putExtra("building", room.hall)
+                putExtra("room", room.room)
             }
             context.startActivity(intent)
         }
