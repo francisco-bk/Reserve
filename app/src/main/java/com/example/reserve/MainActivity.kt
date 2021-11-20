@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         viewPager = findViewById(R.id.viewPager)
+        viewPager.isUserInputEnabled = false
         viewPager.adapter = ViewPagerAdapter(this);
 
         tabLayout = findViewById(R.id.tabLayout)
