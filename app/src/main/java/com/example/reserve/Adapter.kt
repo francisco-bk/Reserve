@@ -1,5 +1,6 @@
 package com.example.reserve
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +30,12 @@ class Adapter(private val rooms: List<Room>) : RecyclerView.Adapter<Adapter.View
         holder.text.text = room.room.toString()
         holder.image.setImageResource(R.drawable.upson)
 
-
+        holder.itemView.setOnClickListener {
+            val intent = Intent(context, ExpandedCardActivity::class.java).apply {
+                // TODO: add putExtras
+            }
+            context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int {
