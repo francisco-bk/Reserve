@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 class HallFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
-    private val roomList = mutableListOf<Room>();
+    private val roomList = mutableListOf<Room>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,13 +24,13 @@ class HallFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var view = inflater.inflate(R.layout.fragment_hall, container, false)
+        val view = inflater.inflate(R.layout.fragment_hall, container, false)
 
         recyclerView = view.findViewById(R.id.recyclerView)
 
         // temp data being added, waiting for backend
         for(i in 1..40) {
-            roomList.add(Room("West", i+200, "Upson", arrayOf(false, false, false, false, true, true, true, true, false, false, true ,true)))
+            roomList.add(Room("West", "UPS" + (i+200).toString(), "Upson", arrayOf(false, false, false, false, true, true, true, true, false, false, true ,true)))
         }
 
         val adapter = Adapter(roomList)
