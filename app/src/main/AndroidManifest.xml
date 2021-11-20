@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Reserve">
         <activity
+            android:name=".RequestReservationActivity"
+            android:exported="true" />
+        <activity
             android:name=".ExpandedCardActivity"
             android:exported="true" />
         <activity
