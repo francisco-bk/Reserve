@@ -3,7 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Demitri/AndroidStudioProjects/Reserve/app/src/main/res/drawable/search.xml" value="0.38333333333333336" />
+        <entry key="..\:/Users/Demitri/AndroidStudioProjects/Reserve/app/src/main/res/drawable/serach_background.xml" value="0.38333333333333336" />
         <entry key="..\:/Users/Demitri/AndroidStudioProjects/Reserve/app/src/main/res/layout/activity_main.xml" value="0.353125" />
+        <entry key="..\:/Users/Demitri/AndroidStudioProjects/Reserve/app/src/main/res/layout/fragment_home.xml" value="0.3671875" />
       </map>
     </option>
   </component>
