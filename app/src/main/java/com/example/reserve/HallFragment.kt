@@ -30,7 +30,7 @@ class HallFragment : Fragment() {
 
         // temp data being added, waiting for backend
         for(i in 1..40) {
-            roomList.add(Room("West", "UPS" + (i+200).toString(), "Upson", arrayOf(false, false, false, false, true, true, true, true, false, false, true ,true)))
+            roomList.add(Room("West", "UPS" + (i+200).toString(), "Upson", arrayOf(false, false, false, false, true, true, true, true, false, false, true ,true), "11/20/2021"))
         }
 
         val adapter = Adapter(roomList)
