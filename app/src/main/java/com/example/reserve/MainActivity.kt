@@ -38,7 +38,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun createFragment(position: Int): Fragment {
-            return HomeFragment.newInstance()
+            return when (position) {
+                1 -> CalendarFragment.newInstance()
+                2 -> ProfileFragment.newInstance()
+                else -> HomeFragment.newInstance()
+            }
         }
 
     }
