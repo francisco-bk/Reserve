@@ -142,6 +142,7 @@
             android:text="I agree to be bound by the policies and procedures concerning the use of space and resources at Cornell University." />
 
         <CheckBox
+            android:id="@+id/checkBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/divider2"
