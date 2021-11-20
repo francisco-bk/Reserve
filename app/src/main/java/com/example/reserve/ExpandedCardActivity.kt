@@ -8,4 +8,6 @@ class ExpandedCardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_expanded_card)
     }
+
+
 }
