@@ -1,19 +1,19 @@
 package com.example.reserve
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-
-
-class HallFragment : Fragment() {
+class FavoritesFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
-    private val roomList = mutableListOf<Room>()
+    private lateinit var noFav : TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,13 +24,23 @@ class HallFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_hall, container, false)
+        var view = inflater.inflate(R.layout.fragment_favorites, container, false)
+        val roomList = mutableListOf<Room>()
 
-        recyclerView = view.findViewById(R.id.recyclerView)
+        recyclerView = view.findViewById(R.id.bookings)
+        noFav = view.findViewById(R.id.noFav)
 
-        // temp data being added, waiting for backend
-        for(i in 1..40) {
-            roomList.add(Room("West", "UPS" + (i+200).toString(), "Upson", "", "11/20/2021"))
+        if (Repository.favorites.size == 0) {
+            noFav.text = "You don't have any favorites. \nIf you favorite any rooms, they will show up here \uD83D\uDE03"
+        }
+        else {
+            noFav.text = ""
+
+            for (favorite in Repository.favorites) {
+                roomList.add(favorite)
+                Log.d("xyz", favorite.room)
+            }
+
         }
 
         val adapter = Adapter(roomList)
@@ -43,8 +53,7 @@ class HallFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance() =
-            HallFragment().apply {
-
+            FavoritesFragment().apply {
             }
     }
 }

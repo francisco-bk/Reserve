@@ -1,5 +1,6 @@
 package com.example.reserve
 
+import android.R.attr
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -7,8 +8,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import android.R.attr.data
 
-class Adapter(private val rooms: List<Room>) : RecyclerView.Adapter<Adapter.ViewHolder>() {
+class Adapter(private var rooms: List<Room>) : RecyclerView.Adapter<Adapter.ViewHolder>() {
 
     class ViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.hallTitle)
@@ -27,7 +29,7 @@ class Adapter(private val rooms: List<Room>) : RecyclerView.Adapter<Adapter.View
         val context = holder.itemView.context
 
         holder.title.text = room.hall
-        holder.text.text = room.room.toString()
+        holder.text.text = room.room
         holder.image.setImageResource(R.drawable.upson)
 
         holder.itemView.setOnClickListener {

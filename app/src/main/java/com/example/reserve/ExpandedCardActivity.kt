@@ -39,8 +39,8 @@ class ExpandedCardActivity : AppCompatActivity() {
         if (building != null) buildingName.text = building
         if (room != null) roomName.text = room
 
-        val tempTimes : Array<Boolean> = arrayOf(true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true)
-        val roomObj = Room("ENG quad?", roomName.text.toString(), buildingName.text.toString(), tempTimes, "Jan 1, 2021")
+
+        val roomObj = Room("ENG quad?", roomName.text.toString(), buildingName.text.toString(), "", "Jan 1, 2021")
 
         backButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java).apply {
@@ -79,6 +79,7 @@ class ExpandedCardActivity : AppCompatActivity() {
             favoriteButtonActivated.show()
             Repository.favorites.add(roomObj)
             Log.d("FAVORITES", "added")
+            Log.d("FAVORITES", Repository.favorites.toString())
         }
 
     }

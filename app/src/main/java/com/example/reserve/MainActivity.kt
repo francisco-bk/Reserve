@@ -8,7 +8,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
-private const val NUM_PAGES = 3
+private const val NUM_PAGES = 4
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,8 +27,9 @@ class MainActivity : AppCompatActivity() {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             when (position) {
                 0 -> tab.setIcon(R.drawable.search)
-                1 -> tab.setIcon(R.drawable.calendar)
-                2 -> tab.setIcon(R.drawable.profile)
+                1 -> tab.setIcon(R.drawable.star_icon)
+                2 -> tab.setIcon(R.drawable.calendar)
+                3 -> tab.setIcon(R.drawable.profile)
             }
         }.attach()
     }
@@ -40,8 +41,9 @@ class MainActivity : AppCompatActivity() {
 
         override fun createFragment(position: Int): Fragment {
             return when (position) {
-                1 -> CalendarFragment.newInstance()
-                2 -> ProfileFragment.newInstance()
+                1 -> FavoritesFragment.newInstance()
+                2 -> CalendarFragment.newInstance()
+                3 -> ProfileFragment.newInstance()
                 else -> HomeFragment.newInstance()
             }
         }
