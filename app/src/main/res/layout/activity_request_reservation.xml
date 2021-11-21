@@ -85,39 +85,40 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/divider1"
-            android:layout_alignLeft="@id/timeButton"
+            android:layout_alignLeft="@id/timeSelect"
             android:layout_alignParentRight="true"
             android:text="Time"
             android:textSize="16dp"
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/dateButton"
+            android:id="@+id/dateSelect"
             style="?android:spinnerStyle"
-            android:layout_width="230dp"
-            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
             android:layout_below="@id/textDate"
             android:layout_alignParentLeft="true"
             android:text="Jan 1, 2021"
+            android:textSize="16dp"
             android:textColor="@color/black" />
 
-        <Button
-            android:id="@+id/timeButton"
+        <Spinner
+            android:id="@+id/timeSelect"
             style="?android:spinnerStyle"
-            android:layout_width="230dp"
-            android:layout_height="wrap_content"
+            android:layout_width="260dp"
+            android:layout_height="50dp"
             android:layout_below="@id/textTime"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/dateButton"
-            android:text="1:00 PM"
+            android:layout_toRightOf="@id/dateSelect"
+            android:backgroundTint="@color/purple_500"
             android:textColor="@color/black" />
 
         <View
             android:id="@+id/divider2"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@id/timeButton"
+            android:layout_below="@id/timeSelect"
             android:layout_marginVertical="15dp"
             android:background="@android:color/darker_gray" />
 

@@ -5,19 +5,22 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.format.DateUtils
+import android.view.View
 import android.widget.*
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 
 
-class RequestReservationActivity : AppCompatActivity() {
+class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private lateinit var backButton: ImageButton
     private lateinit var reserveButton: Button
     private lateinit var checkBox: CheckBox
-    private lateinit var dateButton: Button
-    private lateinit var timeButton: Button
+    private lateinit var dateSelect: Button
+    private lateinit var timeSelect: Spinner
+    private lateinit var buildingName: TextView
+    private lateinit var roomName: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,8 +29,16 @@ class RequestReservationActivity : AppCompatActivity() {
         backButton = findViewById(R.id.backButton)
         reserveButton = findViewById(R.id.reserveButton)
         checkBox = findViewById(R.id.checkBox)
-        dateButton = findViewById(R.id.dateButton)
-        timeButton = findViewById(R.id.timeButton)
+        dateSelect = findViewById(R.id.dateSelect)
+        timeSelect = findViewById(R.id.timeSelect)
+        buildingName = findViewById(R.id.buildingName)
+        roomName = findViewById(R.id.roomName)
+
+        val building = getIntent().extras?.getString("building")
+        val room = getIntent().extras?.getString("room")
+
+        if (building != null) buildingName.text = building
+        if (room != null) roomName.text = room
 
         reserveButton.isEnabled = false
         reserveButton.setBackgroundColor(Color.GRAY)
@@ -48,27 +59,31 @@ class RequestReservationActivity : AppCompatActivity() {
             .build()
 
         datePicker.addOnPositiveButtonClickListener {
-            dateButton.text = datePicker.headerText
+            dateSelect.text = datePicker.headerText
         }
 
-        dateButton.setOnClickListener {
+        dateSelect.setOnClickListener {
             datePicker.show(fragmentManager, "DATE_PICKER")
         }
 
-        timeButton.setOnClickListener {
-            // TODO: add way to select reservation time
-        }
+        timeSelect.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item,
+            resources.getStringArray(R.array.Times))
+        val timeSelectAdapter = ArrayAdapter.createFromResource(this, R.array.Times, android.R.layout.simple_spinner_item)
+            timeSelectAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        timeSelect.adapter = timeSelectAdapter
 
         backButton.setOnClickListener {
             val intent = Intent(this, ExpandedCardActivity::class.java).apply {
                 // TODO: add putExtras
+                putExtra("building", building)
+                putExtra("room", room)
             }
             startActivity(intent)
         }
 
         reserveButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java).apply {
-                // TODO: add putExtras
+                // TODO: add putExtras (esp. time of reservation)
             }
             startActivity(intent)
         }
@@ -82,5 +97,14 @@ class RequestReservationActivity : AppCompatActivity() {
                 reserveButton.setBackgroundColor(Color.GRAY)
             }
         }
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
+        // An item was selected. You can retrieve the selected item using
+        // parent.getItemAtPosition(pos)
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>) {
+        // Another interface callback
     }
 }

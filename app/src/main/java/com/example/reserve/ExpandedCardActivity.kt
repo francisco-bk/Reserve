@@ -52,6 +52,8 @@ class ExpandedCardActivity : AppCompatActivity() {
         reserveButton.setOnClickListener {
             val intent = Intent(this, RequestReservationActivity::class.java).apply {
                 // TODO: add putExtras
+                putExtra("building", building)
+                putExtra("room", room)
             }
             startActivity(intent)
         }
