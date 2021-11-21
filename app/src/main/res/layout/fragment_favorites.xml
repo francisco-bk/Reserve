@@ -24,14 +24,13 @@
         android:id="@+id/noFavImage"
         android:layout_width="90dp"
         android:layout_height="90dp"
-        android:layout_marginLeft="5dp"
         app:layout_constraintEnd_toStartOf="@+id/noFav"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/noFav" />
 
     <TextView
         android:id="@+id/noFav"
-        android:layout_marginLeft="105dp"
+        android:layout_marginLeft="110dp"
         android:layout_marginRight="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,7 +44,7 @@
 
     <TextView
         android:id="@+id/noFavDesc"
-        android:layout_marginLeft="105dp"
+        android:layout_marginLeft="110dp"
         android:layout_marginRight="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
