@@ -64,6 +64,14 @@ class ExpandedCardActivity : AppCompatActivity() {
             }
         }
 
+        if (isFavorite) {
+            favoriteButtonInactivated.hide()
+            favoriteButtonActivated.show()
+        } else {
+            favoriteButtonActivated.hide()
+            favoriteButtonInactivated.show()
+        }
+
         favoriteButtonActivated.setOnClickListener {
             isFavorite = false
             favoriteButtonActivated.hide()
