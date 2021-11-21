@@ -35,20 +35,27 @@
                 android:id="@+id/roomName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="UPSON 216" />
+                android:text="Upson 216"
+                android:textSize="24dp" />
 
             <TextView
                 android:id="@+id/buildingName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/roomName"
-                android:text="Upson Hall * ENG Quad" />
+                android:text="Upson Hall"
+                android:textColor="@color/grey" />
 
             <View
                 android:id="@+id/divider1"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@id/buildingName"
+                android:layout_marginVertical="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="15dp"
                 android:background="@android:color/darker_gray" />
 
             <TextView
@@ -56,7 +63,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/divider1"
-                android:text="AVAILABILITIES" />
+                android:text="Availabilities"
+                android:textSize="24dp" />
 
             <Button
                 android:id="@+id/buttonShowAvailabilities"
@@ -80,7 +88,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/divider2"
-                android:text="What this room offers" />
+                android:text="What this room offers"
+                android:textSize="24dp"/>
 
         </RelativeLayout>
 

@@ -2,7 +2,7 @@ package com.example.reserve
 
 class Repository private constructor() {
     companion object {
-        val reservedRooms = hashMapOf<Room, String>()
+        val reservedRooms = arrayListOf<Room>()
         val favorites = arrayListOf<Room>()
     }
 }
