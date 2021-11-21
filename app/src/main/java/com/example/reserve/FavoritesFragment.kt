@@ -6,14 +6,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import org.w3c.dom.Text
 
 class FavoritesFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var noFav : TextView
+    private lateinit var noFavDesc : TextView
+    private lateinit var image : ImageView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,16 +33,21 @@ class FavoritesFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.bookings)
         noFav = view.findViewById(R.id.noFav)
+        noFavDesc = view.findViewById(R.id.noFavDesc)
+        image = view.findViewById(R.id.noFavImage)
 
         if (Repository.favorites.size == 0) {
-            noFav.text = "You don't have any favorites. \nIf you favorite any rooms, they will show up here \uD83D\uDE03"
+            noFav.text = "No favorites yet"
+            noFavDesc.text = "Tap the star icon on your favorite rooms and they'll show up here"
+            image.setImageResource(R.drawable.no_favs)
         }
         else {
             noFav.text = ""
+            noFavDesc.text = ""
+            image.setImageResource(0)
 
             for (favorite in Repository.favorites) {
                 roomList.add(favorite)
-                Log.d("xyz", favorite.room)
             }
 
         }
