@@ -39,7 +39,7 @@ class RequestReservationActivity : AppCompatActivity() {
         val calendarConstraints = CalendarConstraints.Builder()
             .setStart(today)
             .setEnd(today + DateUtils.YEAR_IN_MILLIS)
-             .setValidator(DateValidatorPointForward.from(today))
+            .setValidator(DateValidatorPointForward.from(today))
 
         val datePicker = MaterialDatePicker.Builder.datePicker()
             .setTitleText("Select date")
