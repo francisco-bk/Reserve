@@ -56,19 +56,16 @@ class RequestReservationActivity : AppCompatActivity() {
         }
 
         timeButton.setOnClickListener {
-            // TODO: add way to select reservation time
         }
 
         backButton.setOnClickListener {
             val intent = Intent(this, ExpandedCardActivity::class.java).apply {
-                // TODO: add putExtras
             }
             startActivity(intent)
         }
 
         reserveButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java).apply {
-                // TODO: add putExtras
             }
             startActivity(intent)
         }

@@ -1,15 +1,11 @@
 package com.example.reserve
 
 import android.content.Intent
-import android.content.res.ColorStateList
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
-import android.widget.ImageButton
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ExpandedCardActivity : AppCompatActivity() {
@@ -33,25 +29,23 @@ class ExpandedCardActivity : AppCompatActivity() {
         favoriteButtonActivated = findViewById(R.id.favoriteButtonActivated)
         favoriteButtonInactivated = findViewById(R.id.favoriteButtonInactivated)
 
-        val building = getIntent().extras?.getString("building")
-        val room = getIntent().extras?.getString("room")
+        val building = intent.extras?.getString("building")
+        val room = intent.extras?.getString("room")
 
         if (building != null) buildingName.text = building
         if (room != null) roomName.text = room
 
 
-        val roomObj = Room("ENG quad?", roomName.text.toString(), buildingName.text.toString(), "", "Jan 1, 2021")
+        val roomObj = Room("ENG quad?", roomName.text.toString(), buildingName.text.toString(), "", "Jan 1, 2021", "Saturday")
 
         backButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java).apply {
-                // TODO: add putExtras
             }
             startActivity(intent)
         }
 
         reserveButton.setOnClickListener {
             val intent = Intent(this, RequestReservationActivity::class.java).apply {
-                // TODO: add putExtras
             }
             startActivity(intent)
         }
@@ -59,7 +53,7 @@ class ExpandedCardActivity : AppCompatActivity() {
         // temporary favorite implementation stored locally for testing
         var isFavorite = false
         for (favorite in Repository.favorites) {
-            if (favorite.room.equals(roomName.text.toString())) {
+            if (favorite.room == roomName.text.toString()) {
                 isFavorite = true
             }
         }
