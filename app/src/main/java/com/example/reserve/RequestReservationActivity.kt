@@ -5,11 +5,15 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.format.DateUtils
+import android.util.Log
 import android.view.View
 import android.widget.*
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.*
 
 
 class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
@@ -17,7 +21,7 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
     private lateinit var backButton: ImageButton
     private lateinit var reserveButton: Button
     private lateinit var checkBox: CheckBox
-    private lateinit var dateSelect: Button
+    private lateinit var dateSelectButton: Button
     private lateinit var timeSelect: Spinner
     private lateinit var buildingName: TextView
     private lateinit var roomName: TextView
@@ -29,7 +33,7 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
         backButton = findViewById(R.id.backButton)
         reserveButton = findViewById(R.id.reserveButton)
         checkBox = findViewById(R.id.checkBox)
-        dateSelect = findViewById(R.id.dateSelect)
+        dateSelectButton = findViewById(R.id.dateSelect)
         timeSelect = findViewById(R.id.timeSelect)
         buildingName = findViewById(R.id.buildingName)
         roomName = findViewById(R.id.roomName)
@@ -46,6 +50,7 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
         val fragmentManager = supportFragmentManager
 
         val today = MaterialDatePicker.todayInUtcMilliseconds()
+        var dow = ""
 
         val calendarConstraints = CalendarConstraints.Builder()
             .setStart(today)
@@ -59,10 +64,17 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
             .build()
 
         datePicker.addOnPositiveButtonClickListener {
-            dateSelect.text = datePicker.headerText
+            dateSelectButton.text = datePicker.headerText
+            val dateInMillis = datePicker.selection!!
+            val daysArray =
+                arrayOf("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
+            val calendar: Calendar = Calendar.getInstance()
+            calendar.time = Date(dateInMillis)
+            val day: Int = calendar.get(Calendar.DAY_OF_WEEK)
+            dow = daysArray[day]
         }
 
-        dateSelect.setOnClickListener {
+        dateSelectButton.setOnClickListener {
             datePicker.show(fragmentManager, "DATE_PICKER")
         }
 
@@ -82,8 +94,31 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
         }
 
         reserveButton.setOnClickListener {
+            // TODO: code cleanup eventually
+            // preliminary implementation of storing time data in repository
+            val roomObj = Room("ENG quad?", roomName.text.toString(), buildingName.text.toString(), timeSelect.selectedItem.toString(), dateSelectButton.text.toString(), dow)
+            Repository.reservedRooms.add(roomObj)
+            val roomKey = roomName.text.toString() + " - " + dateSelectButton.text.toString()
+            var timeStr = timeSelect.selectedItem.toString()
+            var hrInt = timeStr.replace(":00 AM", "").replace(":00 AM", "").toInt()
+            if (timeStr.contains("AM") && timeStr.contains("12")) hrInt = 0
+            else if (timeStr.contains("PM") && !timeStr.contains("12")) hrInt += 12
+
+            var availableTimes : Array<Boolean>
+            if (Repository.reservationTable.containsKey(roomKey)) {
+                availableTimes = Repository.reservationTable[roomKey]!!
+            } else {
+                availableTimes = Array(24, { i -> true}) // false is unavailable (booked)
+            }
+            availableTimes[hrInt] = false
+            Repository.reservationTable[roomKey] = availableTimes
+
+            Log.d("RESERVED", "added")
+            Log.d("RESERVED", Repository.reservedRooms.toString())
+            Log.d("RESERVED", "KEY: " + roomKey)
+            Log.d("RESERVED", "AVAILABILITIES: " + Repository.reservationTable[roomKey].contentToString())
             val intent = Intent(this, MainActivity::class.java).apply {
-                // TODO: add putExtras (esp. time of reservation)
+                // TODO: add putExtras
             }
             startActivity(intent)
         }
@@ -102,6 +137,7 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
     override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
         // An item was selected. You can retrieve the selected item using
         // parent.getItemAtPosition(pos)
+
     }
 
     override fun onNothingSelected(parent: AdapterView<*>) {
