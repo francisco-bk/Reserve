@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/divider1"
             android:layout_alignParentLeft="true"
-            android:text="Start Date"
+            android:text="Date"
             android:textSize="16dp"
             android:textStyle="bold" />
 

@@ -52,7 +52,7 @@ class ExpandedCardActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // temporary favorite implementation stored locally for testing
+        // favorite button implementation
         var isFavorite = false
         for (favorite in Repository.favorites) {
             if (favorite.room == roomName.text.toString()) {

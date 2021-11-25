@@ -66,6 +66,7 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
         dateSelectButton.text = sdf.format(date)
 
         datePicker.addOnPositiveButtonClickListener {
+            // find date of week
             dateSelectButton.text = datePicker.headerText
             val dateInMillis = datePicker.selection!!
             val daysArray =
@@ -74,6 +75,26 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
             calendar.time = Date(dateInMillis)
             val day: Int = calendar.get(Calendar.DAY_OF_WEEK)
             dow = daysArray[day]
+
+            // grey out timeSelectButton if all times booked for that day
+            val key = getReservationKey()
+            if (Repository.reservationTable.containsKey(key)) {
+                val availableTimes = Repository.reservationTable[key]!!
+                var hasOpenTimeSlot = false
+                var i = 0
+                while (!hasOpenTimeSlot) { // check if room has open time slot for that day
+                    if (availableTimes[i]) hasOpenTimeSlot = true
+                    i++
+                }
+                if (!hasOpenTimeSlot) {
+                    timeSelectButton.text = "All times booked for this day!"
+                    timeSelectButton.isEnabled = false
+                    timeSelectButton.setTextColor(Color.GRAY)
+                }
+            } else {
+                timeSelectButton.text = "Select Time"
+                timeSelectButton.isEnabled = true
+            }
         }
 
         dateSelectButton.setOnClickListener {
@@ -175,26 +196,14 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
             val key = getReservationKey()
             if (Repository.reservationTable.containsKey(key)) {
                 val availableTimes = Repository.reservationTable[key]!!
-                var hasOpenTimeSlot = false
-                var i = 0
-                for (isTimeAvailable in availableTimes) {
+                for ((i, isTimeAvailable) in availableTimes.withIndex()) {
                     var button = timeButtons[i]
                     if (isTimeAvailable) {
                         button.isEnabled = true
-                        if (!hasOpenTimeSlot) {
-                            timeSelectButton.text = button.text
-                            hasOpenTimeSlot = true
-                        }
                     } else {
                         button.isEnabled = false
                         button.setTextColor(Color.GRAY)
                     }
-                    i++
-                }
-                if (!hasOpenTimeSlot) { // grey out timeSelectButton if all times booked for that day
-                    timeSelectButton.text = "All times booked for this day!"
-                    timeSelectButton.isEnabled = false
-                    timeSelectButton.setTextColor(Color.GRAY)
                 }
             }
 
