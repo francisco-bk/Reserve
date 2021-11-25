@@ -192,7 +192,7 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
                 }
             }
 
-            // Grey out specific time button if time slot is unavailable for that day
+            // Grey out specific time button if time slot is reserved for that day
             val key = getReservationKey()
             if (Repository.reservationTable.containsKey(key)) {
                 val availableTimes = Repository.reservationTable[key]!!
@@ -206,6 +206,27 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
                     }
                 }
             }
+
+            // Grey out all individual time buttons before current time if today is selected
+            val dateMillis = System.currentTimeMillis()
+            val sdfDate = SimpleDateFormat("MMM dd, yyyy")
+            if (dateSelectButton.text == sdfDate.format(dateMillis)) {
+                Log.d("CRASHHERE", "1")
+                val sdfHour = SimpleDateFormat("HH")
+                Log.d("CRASHHERE", "2")
+                val currentHour = sdfHour.format(dateMillis).toInt() // Hour in day 0-23
+                Log.d("CRASHHERE", "3")
+                var i = 0
+                Log.d("CRASHHERE", "4")
+                while (i <= currentHour) {
+                    Log.d("CRASHHERE", "5")
+                    var button = timeButtons[i]
+                    button.isEnabled = false
+                    button.setTextColor(Color.GRAY)
+                    i++
+                }
+            }
+
 
             bottomSheetDialog.show()
         }
