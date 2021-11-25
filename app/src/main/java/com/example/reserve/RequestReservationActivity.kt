@@ -13,7 +13,6 @@ import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import java.text.SimpleDateFormat
-import java.util.*
 
 
 class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
@@ -50,7 +49,6 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
         val fragmentManager = supportFragmentManager
 
         val today = MaterialDatePicker.todayInUtcMilliseconds()
-        var dow = ""
         val calendarConstraints = CalendarConstraints.Builder()
             .setStart(today)
             .setEnd(today + DateUtils.YEAR_IN_MILLIS)
@@ -62,19 +60,21 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
             .build()
 
         val date = System.currentTimeMillis()
-        val sdf = SimpleDateFormat("MMM dd, yyyy")
-        dateSelectButton.text = sdf.format(date)
+        val sdf = SimpleDateFormat("MMM d, yyyy")
+        val sdf2 = SimpleDateFormat("EEE")
+        val todayString = sdf.format(date)
+        dateSelectButton.text = todayString
+        var dow = sdf2.format(date)
+
+        val sdfHour = SimpleDateFormat("h:00 aa")
+        timeSelectButton.text = sdfHour.format(date + DateUtils.HOUR_IN_MILLIS)
 
         datePicker.addOnPositiveButtonClickListener {
-            // find date of week
+            // find day of week
             dateSelectButton.text = datePicker.headerText
-            val dateInMillis = datePicker.selection!!
-            val daysArray =
-                arrayOf("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
-            val calendar: Calendar = Calendar.getInstance()
-            calendar.time = Date(dateInMillis)
-            val day: Int = calendar.get(Calendar.DAY_OF_WEEK)
-            dow = daysArray[day]
+            val dateInMillis = datePicker.selection!! + DateUtils.DAY_IN_MILLIS
+            val sdfDay = SimpleDateFormat("EEE")
+            dow = sdfDay.format(dateInMillis)
 
             // grey out timeSelectButton if all times booked for that day
             val key = getReservationKey()
@@ -83,7 +83,15 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
                 var hasOpenTimeSlot = false
                 var i = 0
                 while (!hasOpenTimeSlot) { // check if room has open time slot for that day
-                    if (availableTimes[i]) hasOpenTimeSlot = true
+                    if (availableTimes[i]) {
+                        hasOpenTimeSlot = true
+                        val sdfHour = SimpleDateFormat("h:00 aa")
+                        if (todayString.equals(dateSelectButton.text)) {
+                            timeSelectButton.text = sdfHour.format(date + DateUtils.HOUR_IN_MILLIS)
+                        } else {
+                            timeSelectButton.text = sdfHour.format(dateInMillis)
+                        }
+                    }
                     i++
                 }
                 if (!hasOpenTimeSlot) {
@@ -92,7 +100,7 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
                     timeSelectButton.setTextColor(Color.GRAY)
                 }
             } else {
-                timeSelectButton.text = "Select Time"
+                timeSelectButton.text = "12:00 AM"
                 timeSelectButton.isEnabled = true
             }
         }
@@ -112,14 +120,13 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
 
         reserveButton.setOnClickListener {
             // TODO: code cleanup eventually
-            // TODO: don't allow reserve if in past
             // preliminary implementation of storing time data in repository
             val roomObj = Room("ENG quad?", roomName.text.toString(), buildingName.text.toString(),
                 timeSelectButton.text.toString(), dateSelectButton.text.toString(), dow)
             Repository.reservedRooms.add(roomObj)
-            val roomKey = roomName.text.toString() + " - " + dateSelectButton.text.toString()
+            val roomKey = getReservationKey()
             var timeStr = timeSelectButton.text.toString()
-            var hrInt = timeStr.replace(":00 AM", "").replace(":00 AM", "").toInt()
+            var hrInt = timeStr.replace(":00 AM", "").replace(":00 PM", "").toInt()
             if (timeStr.contains("AM") && timeStr.contains("12")) hrInt = 0
             else if (timeStr.contains("PM") && !timeStr.contains("12")) hrInt += 12
 
@@ -209,17 +216,12 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
 
             // Grey out all individual time buttons before current time if today is selected
             val dateMillis = System.currentTimeMillis()
-            val sdfDate = SimpleDateFormat("MMM dd, yyyy")
+            val sdfDate = SimpleDateFormat("MMM d, yyyy")
             if (dateSelectButton.text == sdfDate.format(dateMillis)) {
-                Log.d("CRASHHERE", "1")
                 val sdfHour = SimpleDateFormat("HH")
-                Log.d("CRASHHERE", "2")
                 val currentHour = sdfHour.format(dateMillis).toInt() // Hour in day 0-23
-                Log.d("CRASHHERE", "3")
                 var i = 0
-                Log.d("CRASHHERE", "4")
                 while (i <= currentHour) {
-                    Log.d("CRASHHERE", "5")
                     var button = timeButtons[i]
                     button.isEnabled = false
                     button.setTextColor(Color.GRAY)
@@ -227,12 +229,11 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
                 }
             }
 
-
             bottomSheetDialog.show()
         }
     }
 
-    fun getReservationKey(): String {
+    private fun getReservationKey(): String {
         return roomName.text.toString() + " - " + dateSelectButton.text.toString()
     }
 
