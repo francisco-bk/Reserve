@@ -1,7 +1,6 @@
 package com.example.reserve
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.text.format.DateUtils
 import android.util.Log
@@ -44,7 +43,7 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
         if (room != null) roomName.text = room
 
         reserveButton.isEnabled = false
-        reserveButton.setBackgroundColor(Color.GRAY)
+        reserveButton.setBackgroundColor(resources.getColor(R.color.grey))
 
         val fragmentManager = supportFragmentManager
 
@@ -97,7 +96,7 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
                 if (!hasOpenTimeSlot) {
                     timeSelectButton.text = "All times booked for this day!"
                     timeSelectButton.isEnabled = false
-                    timeSelectButton.setTextColor(Color.GRAY)
+                    timeSelectButton.setTextColor(resources.getColor(R.color.grey))
                 }
             } else {
                 timeSelectButton.text = "12:00 AM"
@@ -152,10 +151,10 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
         checkBox.setOnClickListener {
             if (checkBox.isChecked) {
                 reserveButton.isEnabled = true
-                reserveButton.setBackgroundColor(Color.RED)
+                reserveButton.setBackgroundColor(resources.getColor(R.color.red))
             } else {
                 reserveButton.isEnabled = false
-                reserveButton.setBackgroundColor(Color.GRAY)
+                reserveButton.setBackgroundColor(resources.getColor(R.color.grey))
             }
         }
 
@@ -209,7 +208,7 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
                         button.isEnabled = true
                     } else {
                         button.isEnabled = false
-                        button.setTextColor(Color.GRAY)
+                        button.setTextColor(resources.getColor(R.color.grey))
                     }
                 }
             }
@@ -224,7 +223,7 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
                 while (i <= currentHour) {
                     var button = timeButtons[i]
                     button.isEnabled = false
-                    button.setTextColor(Color.GRAY)
+                    button.setTextColor(resources.getColor(R.color.grey))
                     i++
                 }
             }
