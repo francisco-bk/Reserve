@@ -8,12 +8,13 @@
 
     <ImageButton
         android:id="@+id/backButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="?attr/colorOnPrimary"
         android:src="@drawable/x"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        app:tint="?attr/colorSecondary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -99,7 +100,7 @@
             android:layout_below="@id/textDate"
             android:layout_alignParentLeft="true"
             android:text="Select Date"
-            android:textColor="@color/black"
+            android:textColor="?attr/android:textColor"
             android:textSize="16dp" />
 
 <!--        <Spinner-->
@@ -120,12 +121,11 @@
             android:layout_width="260dp"
             android:layout_height="50dp"
             android:layout_below="@id/textTime"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/dateSelect"
-            android:backgroundTint="@color/purple_500"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/dateSelect"
             android:text="Select Time"
-            android:textColor="@color/black"
+            android:textColor="?attr/android:textColor"
             android:textSize="16dp" />
 
         <View
@@ -160,7 +160,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/divider2"
             android:layout_alignParentRight="true"
-            android:buttonTint="@color/black"
+            android:buttonTint="?attr/colorSecondary"
             android:scaleX="1.25"
             android:scaleY="1.25" />
     </RelativeLayout>
