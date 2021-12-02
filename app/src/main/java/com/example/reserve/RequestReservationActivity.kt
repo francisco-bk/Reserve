@@ -8,9 +8,7 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.datepicker.CalendarConstraints
-import com.google.android.material.datepicker.DateValidatorPointForward
-import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.datepicker.*
 import java.text.SimpleDateFormat
 
 
@@ -46,12 +44,14 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
         reserveButton.setBackgroundColor(resources.getColor(R.color.grey))
 
         val fragmentManager = supportFragmentManager
-
         val today = MaterialDatePicker.todayInUtcMilliseconds()
+        val combinedValidator = CompositeDateValidator.allOf(
+            listOf(DateValidatorPointForward.from(today),
+                DateValidatorPointBackward.before(today + 6*DateUtils.DAY_IN_MILLIS)))
         val calendarConstraints = CalendarConstraints.Builder()
             .setStart(today)
             .setEnd(today + DateUtils.YEAR_IN_MILLIS)
-            .setValidator(DateValidatorPointForward.from(today))
+            .setValidator(combinedValidator)
         val datePicker = MaterialDatePicker.Builder.datePicker()
             .setTitleText("Select date")
             .setSelection(today)
