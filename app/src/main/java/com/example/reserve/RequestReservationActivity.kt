@@ -231,15 +231,15 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
             timeSelectButton.text = getString(R.string.all_booked)
             timeSelectButton.isEnabled = false
             timeSelectButton.setTextColor(resources.getColor(R.color.grey))
-        } else {
-            if (dateSelectButton.text.equals(todayString)) {
-                timeSelectButton.text = currentHour
-            } else {
-                timeSelectButton.text = getString(R.string.am12)
-            }
-            timeSelectButton.isEnabled = true
-            timeSelectButton.setTextColor(resources.getColor(R.color.black))
+            return
         }
+        if (dateSelectButton.text.equals(todayString)) {
+            timeSelectButton.text = currentHour
+        } else {
+            timeSelectButton.text = getString(R.string.am12)
+        }
+        timeSelectButton.isEnabled = true
+        timeSelectButton.setTextColor(resources.getColor(R.color.black))
     }
 
     /** Get reservation key to search for room in Repository.reservationTable */
