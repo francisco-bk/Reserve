@@ -76,33 +76,7 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
             val sdfDay = SimpleDateFormat("EEE")
             dow = sdfDay.format(dateInMillis)
 
-            // grey out timeSelectButton if all times booked for that day
-            val key = getReservationKey()
-            if (Repository.reservationTable.containsKey(key)) {
-                val availableTimes = Repository.reservationTable[key]!!
-                var hasOpenTimeSlot = false
-                var i = 0
-                while (!hasOpenTimeSlot) { // check if room has open time slot for that day
-                    if (availableTimes[i]) {
-                        hasOpenTimeSlot = true
-                        val sdfHour = SimpleDateFormat("h:00 aa")
-                        if (todayString.equals(dateSelectButton.text)) {
-                            timeSelectButton.text = sdfHour.format(date + DateUtils.HOUR_IN_MILLIS)
-                        } else {
-                            timeSelectButton.text = sdfHour.format(dateInMillis)
-                        }
-                    }
-                    i++
-                }
-                if (!hasOpenTimeSlot) {
-                    timeSelectButton.text = "All times booked for this day!"
-                    timeSelectButton.isEnabled = false
-                    timeSelectButton.setTextColor(resources.getColor(R.color.grey))
-                }
-            } else {
-                timeSelectButton.text = "12:00 AM"
-                timeSelectButton.isEnabled = true
-            }
+            setTimeDisplay()
         }
 
         dateSelectButton.setOnClickListener {
@@ -150,7 +124,7 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
         }
 
         checkBox.setOnClickListener {
-            if (checkBox.isChecked) {
+            if (checkBox.isChecked && timeSelectButton.isEnabled) {
                 reserveButton.isEnabled = true
                 reserveButton.setBackgroundColor(resources.getColor(R.color.red))
             } else {
@@ -241,11 +215,12 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
         val todayString = sdf.format(today)
         val sdfHour = SimpleDateFormat("h:00 aa")
         val currentHour = sdfHour.format(today + DateUtils.HOUR_IN_MILLIS)
+        val sdfHourInt = SimpleDateFormat("H")
+        val hourInt = sdfHourInt.format(today).toInt()
 
         val key = getReservationKey()
         if (Repository.reservationTable.containsKey(key)) {
             val availableTimes = Repository.reservationTable[key]!!
-            var hasOpenTimeSlot = false
             var i = 0
             while (i < 24) {
                 if (availableTimes[i]) { // check if room has open time slot for that day
@@ -253,24 +228,27 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
                     val iDiv = i / 12
                     val AMPM = if (iDiv == 1) "PM" else "AM"
                     val iMod = i % 12
-                    var timeStr = if (iMod == 0) "12:00" else "$iMod:00"
+                    var timeStr = if (iMod == 0) "12:00 " else "$iMod:00 "
                     timeStr += AMPM
 
-                    if (dateSelectButton.text.equals(todayString)) {
-
-                    } else {
+                    Log.d("TESTINGTESTING", dateSelectButton.text.equals(todayString).toString())
+                    if (!dateSelectButton.text.equals(todayString) || i > hourInt) {
                         timeSelectButton.text = timeStr
+                        return
                     }
-                    return
                 }
                 i++
             }
             timeSelectButton.text = "All times booked for this day!"
             timeSelectButton.isEnabled = false
-            timeSelectButton.setTextColor(resources.getColor(R.color.grey))
+//            timeSelectButton.setTextColor(resources.getColor(R.color.grey))
         } else {
-            timeSelectButton.text = "12:00 AM"
-            timeSelectButton.isEnabled = true
+            if (dateSelectButton.text.equals(todayString)) {
+                timeSelectButton.text = currentHour
+            } else {
+                timeSelectButton.text = "12:00 AM"
+                timeSelectButton.isEnabled = true
+            }
         }
     }
 
