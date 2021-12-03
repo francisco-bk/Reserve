@@ -32,7 +32,7 @@
             android:text="Upson Hall"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/grey"
-            android:textSize="16dp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/roomName"
@@ -41,7 +41,7 @@
             android:layout_below="@id/buildingName"
             android:layout_marginBottom="10dp"
             android:text="Upson 216"
-            android:textSize="24dp"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
         <androidx.cardview.widget.CardView
@@ -49,7 +49,7 @@
             android:layout_width="100dp"
             android:layout_height="80dp"
             android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:foregroundGravity="center"
             app:cardCornerRadius="20dp">
 
@@ -76,9 +76,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/divider1"
-            android:layout_alignParentLeft="true"
-            android:text="Date"
-            android:textSize="16dp"
+            android:layout_alignParentStart="true"
+            android:text="@string/date"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <TextView
@@ -86,37 +86,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/divider1"
-            android:layout_alignLeft="@id/timeSelect2"
-            android:layout_alignParentRight="true"
-            android:text="Time"
-            android:textSize="16dp"
+            android:layout_alignStart="@id/timeSelect"
+            android:layout_alignParentEnd="true"
+            android:text="@string/time"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/dateSelect"
             style="?android:spinnerStyle"
-            android:layout_width="200dp"
+            android:layout_width="150dp"
             android:layout_height="50dp"
             android:layout_below="@id/textDate"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:text="Select Date"
             android:textColor="?attr/android:textColor"
-            android:textSize="16dp" />
+            android:textSize="16sp" />
 
-<!--        <Spinner-->
-<!--            android:id="@+id/timeSelect"-->
-<!--            style="?android:spinnerStyle"-->
-<!--            android:layout_width="260dp"-->
-<!--            android:layout_height="50dp"-->
-<!--            android:layout_below="@id/textTime"-->
-<!--            android:layout_alignParentRight="true"-->
-<!--            android:layout_marginLeft="10dp"-->
-<!--            android:layout_toRightOf="@id/dateSelect"-->
-<!--            android:backgroundTint="@color/purple_500"-->
-<!--            android:textColor="@color/black" />-->
 
         <Button
-            android:id="@+id/timeSelect2"
+            android:id="@+id/timeSelect"
             style="?android:spinnerStyle"
             android:layout_width="260dp"
             android:layout_height="50dp"
@@ -126,13 +115,13 @@
             android:layout_toEndOf="@id/dateSelect"
             android:text="Select Time"
             android:textColor="?attr/android:textColor"
-            android:textSize="16dp" />
+            android:textSize="16sp" />
 
         <View
             android:id="@+id/divider2"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@id/timeSelect2"
+            android:layout_below="@id/timeSelect"
             android:layout_marginVertical="15dp"
             android:background="@android:color/darker_gray" />
 
@@ -141,8 +130,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/divider2"
-            android:text="Required Agreement"
-            android:textSize="16dp"
+            android:text="@string/required_agreement"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <TextView
@@ -150,8 +139,8 @@
             android:layout_width="260dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/titleRequiredAgree"
-            android:layout_alignParentLeft="true"
-            android:text="I agree to be bound by the policies and procedures concerning the use of space and resources at Cornell University."
+            android:layout_alignParentStart="true"
+            android:text="@string/i_agree_to_be_bound_by_the_policies_and_procedures_concerning_the_use_of_space_and_resources_at_cornell_university"
             android:textColor="@color/grey" />
 
         <CheckBox
@@ -159,7 +148,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/divider2"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:buttonTint="?attr/colorSecondary"
             android:scaleX="1.25"
             android:scaleY="1.25" />
@@ -183,7 +172,7 @@
         android:layout_marginHorizontal="40dp"
         android:layout_marginVertical="20dp"
         android:paddingVertical="10dp"
-        android:text="RESERVE"
+        android:text="@string/reserve"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

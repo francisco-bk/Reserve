@@ -30,7 +30,7 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
         reserveButton = findViewById(R.id.reserveButton)
         checkBox = findViewById(R.id.checkBox)
         dateSelectButton = findViewById(R.id.dateSelect)
-        timeSelectButton = findViewById(R.id.timeSelect2)
+        timeSelectButton = findViewById(R.id.timeSelect)
         buildingName = findViewById(R.id.buildingName)
         roomName = findViewById(R.id.roomName)
 

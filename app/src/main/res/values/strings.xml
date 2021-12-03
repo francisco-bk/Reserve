@@ -4,6 +4,11 @@
     <string name="bookings">Bookings</string>
     <string name="upcoming">Upcoming</string>
     <string name="favorites">Favorites</string>
+    <string name="required_agreement">Required Agreement</string>
+    <string name="i_agree_to_be_bound_by_the_policies_and_procedures_concerning_the_use_of_space_and_resources_at_cornell_university">I agree to be bound by the policies and procedures concerning the use of space and resources at Cornell University.</string>
+    <string name="reserve">RESERVE</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
 
     <string-array name="Times">
         <item>12:00 AM</item>
