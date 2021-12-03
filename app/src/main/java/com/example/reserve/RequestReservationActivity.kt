@@ -12,7 +12,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.datepicker.*
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
@@ -35,6 +34,7 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
     private val client = OkHttpClient()
     private val moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
     private val reservationJsonAdapter : JsonAdapter<Reservation> = moshi.adapter(Reservation::class.java)
+    private val timeJsonAdapter : JsonAdapter<Time> = moshi.adapter(Time::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,12 +75,15 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
             .setCalendarConstraints(calendarConstraints.build())
             .build()
 
-        val date = System.currentTimeMillis()
+        val today2 = System.currentTimeMillis()
         val sdf = SimpleDateFormat("MMM d, yyyy")
         val sdf2 = SimpleDateFormat("EEE")
-        val todayString = sdf.format(date)
+        val todayString = sdf.format(today2)
         dateSelectButton.text = todayString
-        var dow = sdf2.format(date)
+        var dow = sdf2.format(today2)
+
+        val sdf3 = SimpleDateFormat("MM-dd-yyyy")
+        var selectedDate = sdf3.format(today2)
 
         setTimeDisplay()
 
@@ -90,6 +93,7 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
             val dateInMillis = datePicker.selection!! + DateUtils.DAY_IN_MILLIS
             val sdfDay = SimpleDateFormat("EEE")
             dow = sdfDay.format(dateInMillis)
+            selectedDate = sdf3.format(dateInMillis)
             setTimeDisplay()
             updateReservationButton()
         }
@@ -108,10 +112,11 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
         }
 
         reserveButton.setOnClickListener {
-//            // store reservation data in repository
-//            val roomObj = Room(id!!, "ENG quad?", roomName.text.toString(), buildingName.text.toString(), false, 100, "", timeSelectButton.text.toString(), dateSelectButton.text.toString(), dow)
-//            Repository.reservedRooms.add(roomObj)
-//            val roomKey = getReservationKey()
+            // store reservation data in repository (LOCAL)
+            val roomObj = Room(id!!, "ENG quad?", roomName.text.toString(), buildingName.text.toString(), false, 100, "", timeSelectButton.text.toString(), dateSelectButton.text.toString(), dow)
+            Repository.reservedRooms.add(roomObj)
+            val roomKey = getReservationKey()
+            // LOCAL SEGMENT END
 
             // Get the hr in Int from range 1-24 (1 is 12:00 AM, 2 is 1:00 AM, etc.)
             val timeStr = timeSelectButton.text.toString()
@@ -119,23 +124,23 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
             if (timeStr.contains("AM") && timeStr.contains("12")) hrInt = 1
             else if (timeStr.contains("PM") && !timeStr.contains("12")) hrInt += 12
 
-//            val availableTimes : Array<Boolean>
-//            if (Repository.reservationTable.containsKey(roomKey)) {
-//                availableTimes = Repository.reservationTable[roomKey]!!
-//            } else {
-//                availableTimes = Array(24, { i -> true}) // false is unavailable (booked)
-//            }
-//            availableTimes[hrInt] = false
-//            Repository.reservationTable[roomKey] = availableTimes
-//
-//            Log.d("RESERVED", "added")
-//            Log.d("RESERVED", Repository.reservedRooms.toString())
-//            Log.d("RESERVED", "KEY: " + roomKey)
-//            Log.d("RESERVED", "AVAILABILITIES: " + Repository.reservationTable[roomKey].contentToString())
+            // LOCAL RESERVE BEGIN
+            val availableTimes : Array<Boolean>
+            if (Repository.reservationTable.containsKey(roomKey)) {
+                availableTimes = Repository.reservationTable[roomKey]!!
+            } else {
+                availableTimes = Array(24, { i -> true}) // false is unavailable (booked)
+            }
+            availableTimes[hrInt] = false
+            Repository.reservationTable[roomKey] = availableTimes
 
-            Log.d("NETWORK_DEBUG", id.toString())
-//            val newReservation = Reservation(id!!, 5, hrInt, dateSelectButton.text.toString())
-            val newReservation = Reservation(id!!, 5, hrInt, dateSelectButton.text.toString())
+            Log.d("RESERVED", "added")
+            Log.d("RESERVED", Repository.reservedRooms.toString())
+            Log.d("RESERVED", "KEY: " + roomKey)
+            Log.d("RESERVED", "AVAILABILITIES: " + Repository.reservationTable[roomKey].contentToString())
+            // LOCAL RESERVE END
+
+            val newReservation = Reservation(id!!, 5, hrInt, selectedDate)
             val requestBody = reservationJsonAdapter.toJson(newReservation).toRequestBody(("application/json; charset=utf-8").toMediaType())
             val postRequest = Request.Builder().url(Repository.BASE_URL + "reservations/").post(requestBody).build()
             client.newCall(postRequest).enqueue(object : Callback {
@@ -197,20 +202,47 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
                 }
             }
 
-            // Grey out specific time button if time slot is reserved for that day
-            val key = getReservationKey()
-            if (Repository.reservationTable.containsKey(key)) {
-                val availableTimes = Repository.reservationTable[key]!!
-                for ((i, isTimeAvailable) in availableTimes.withIndex()) {
-                    val button = timeButtons[i]
-                    if (isTimeAvailable) {
-                        button.isEnabled = true
-                    } else {
-                        button.isEnabled = false
-                        button.setTextColor(resources.getColor(R.color.grey))
+            // Grey out specific time button if time slot is reserved for that day (NETWORK)
+            val getRequest = Request.Builder().url(Repository.BASE_URL + "times/").build()
+            client.newCall(getRequest).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    Log.d("NETWORK DEBUG", "Time table GET error: " + e.printStackTrace().toString())
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    response.use {
+                        if (!it.isSuccessful) {
+                            Log.d("NETWORK_DEBUG", "Time table GET unsuccessful: $response")
+                        }
+                        val timeTableObj = timeJsonAdapter.fromJson(response.body!!.string())!!
+                        val timeTable = timeToList(timeTableObj)
+                        for ((i, isTimeUnavailable) in timeTable.withIndex()) {
+                            val button = timeButtons[i]
+                            if (isTimeUnavailable) {
+                                button.isEnabled = false
+                                button.setTextColor(resources.getColor(R.color.grey))
+                            } else {
+                                button.isEnabled = true
+                            }
+                        }
                     }
                 }
-            }
+            })
+
+            // Grey out specific time button if time slot is reserved for that day (LOCAL)
+//            val key = getReservationKey()
+//            if (Repository.reservationTable.containsKey(key)) {
+//                val availableTimes = Repository.reservationTable[key]!!
+//                for ((i, isTimeAvailable) in availableTimes.withIndex()) {
+//                    val button = timeButtons[i]
+//                    if (isTimeAvailable) {
+//                        button.isEnabled = true
+//                    } else {
+//                        button.isEnabled = false
+//                        button.setTextColor(resources.getColor(R.color.grey))
+//                    }
+//                }
+//            }
 
             // Grey out all individual time buttons before current time if today is selected
             val dateMillis = System.currentTimeMillis()
@@ -300,5 +332,34 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
 
     override fun onNothingSelected(parent: AdapterView<*>) {
         // Another interface callback
+    }
+
+    fun timeToList(time: Time): List<Boolean> {
+        return listOf(
+            time.t1,
+            time.t2,
+            time.t3,
+            time.t4,
+            time.t5,
+            time.t6,
+            time.t7,
+            time.t8,
+            time.t9,
+            time.t10,
+            time.t11,
+            time.t12,
+            time.t13,
+            time.t14,
+            time.t15,
+            time.t16,
+            time.t17,
+            time.t18,
+            time.t19,
+            time.t20,
+            time.t21,
+            time.t22,
+            time.t23,
+            time.t24
+        )
     }
 }

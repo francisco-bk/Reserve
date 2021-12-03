@@ -72,7 +72,7 @@ class HallFragment : Fragment() {
             override fun onResponse(call: Call, response: Response) {
                 response.use {
                     if (!it.isSuccessful) {
-                        Log.d("NETWORK_DEBUG", "Room GET unsuccessful")
+                        Log.d("NETWORK_DEBUG", "Room GET unsuccessful: $response")
                     }
                     val roomList = roomListJsonAdapter.fromJson(response.body!!.string())!!
                     adapter = Adapter(roomList)
