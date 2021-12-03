@@ -91,8 +91,7 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
 
         reserveButton.setOnClickListener {
             // store reservation data in repository
-            val roomObj = Room("ENG quad?", roomName.text.toString(), buildingName.text.toString(),
-                timeSelectButton.text.toString(), dateSelectButton.text.toString(), dow)
+            val roomObj = Room("ENG quad?", roomName.text.toString(), buildingName.text.toString(), false, 100, "", timeSelectButton.text.toString(), dateSelectButton.text.toString(), dow)
             Repository.reservedRooms.add(roomObj)
             val roomKey = getReservationKey()
             val timeStr = timeSelectButton.text.toString()

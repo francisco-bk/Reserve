@@ -42,13 +42,14 @@ class HallFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recyclerView)
 
         // temp data being added, waiting for backend
-        for(i in 1..40) {
-            roomList.add(Room("West", "UPS" + (i+200).toString(), "Upson", "", "11/20/2021", "Saturday"))
-        }
+//        for(i in 1..40) {
+//            roomList.add(Room("West", "UPS" + (i+200).toString(), "Upson", "", "11/20/2021", "Saturday"))
+//        }
 
-        adapter = Adapter(roomList)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
+//        adapter = Adapter(roomList)
+//        recyclerView.adapter = adapter
+        layoutManager = LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
+        populateRepository()
 
         return view
     }

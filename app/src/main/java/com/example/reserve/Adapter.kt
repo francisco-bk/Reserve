@@ -1,6 +1,5 @@
 package com.example.reserve
 
-import android.R.attr
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import android.R.attr.data
+import com.bumptech.glide.Glide
 
 class Adapter(private var rooms: List<Room>) : RecyclerView.Adapter<Adapter.ViewHolder>() {
 
@@ -29,13 +28,14 @@ class Adapter(private var rooms: List<Room>) : RecyclerView.Adapter<Adapter.View
         val context = holder.itemView.context
 
         holder.title.text = room.hall
-        holder.text.text = room.room
+        holder.text.text = room.room_name
         holder.image.setImageResource(R.drawable.upson)
+        Glide.with(context).load(room.image).into(holder.image)
 
         holder.itemView.setOnClickListener {
             val intent = Intent(context, ExpandedCardActivity::class.java).apply {
                 putExtra("building", room.hall)
-                putExtra("room", room.room)
+                putExtra("room", room.room_name)
             }
             context.startActivity(intent)
         }

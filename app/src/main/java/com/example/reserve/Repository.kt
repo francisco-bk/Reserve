@@ -2,7 +2,7 @@ package com.example.reserve
 
 class Repository private constructor() {
     companion object {
-        const val BASE_URL = ""
+        const val BASE_URL = "https://reserve-backend.herokuapp.com/"
 
         val reservedRooms = arrayListOf<Room>()
         val favorites = arrayListOf<Room>()

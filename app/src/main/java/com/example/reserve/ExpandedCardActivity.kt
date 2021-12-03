@@ -36,7 +36,7 @@ class ExpandedCardActivity : AppCompatActivity() {
         if (room != null) roomName.text = room
 
 
-        val roomObj = Room("ENG quad?", roomName.text.toString(), buildingName.text.toString(), "", "Jan 1, 2021", "Saturday")
+        val roomObj = Room("ENG quad?", roomName.text.toString(), buildingName.text.toString(), false, 100, "", "", "Jan 1, 2021", "Saturday")
 
         backButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java).apply {
@@ -55,7 +55,7 @@ class ExpandedCardActivity : AppCompatActivity() {
         // favorite button implementation
         var isFavorite = false
         for (favorite in Repository.favorites) {
-            if (favorite.room == roomName.text.toString()) {
+            if (favorite.room_name == roomName.text.toString()) {
                 isFavorite = true
             }
         }
