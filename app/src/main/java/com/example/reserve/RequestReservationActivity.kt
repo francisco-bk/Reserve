@@ -65,8 +65,9 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
         dateSelectButton.text = todayString
         var dow = sdf2.format(date)
 
-        val sdfHour = SimpleDateFormat("h:00 aa")
-        timeSelectButton.text = sdfHour.format(date + DateUtils.HOUR_IN_MILLIS)
+//        val sdfHour = SimpleDateFormat("h:00 aa")
+//        timeSelectButton.text = sdfHour.format(date + DateUtils.HOUR_IN_MILLIS)
+        setTimeDisplay()
 
         datePicker.addOnPositiveButtonClickListener {
             // find day of week
@@ -229,6 +230,47 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
             }
 
             bottomSheetDialog.show()
+        }
+    }
+
+    /** Set the timeSelectButton to display earliest available time of the date selected displayed on
+     * dateSelectButton. */
+    private fun setTimeDisplay() {
+        val today = System.currentTimeMillis()
+        val sdf = SimpleDateFormat("MMM d, yyyy")
+        val todayString = sdf.format(today)
+        val sdfHour = SimpleDateFormat("h:00 aa")
+        val currentHour = sdfHour.format(today + DateUtils.HOUR_IN_MILLIS)
+
+        val key = getReservationKey()
+        if (Repository.reservationTable.containsKey(key)) {
+            val availableTimes = Repository.reservationTable[key]!!
+            var hasOpenTimeSlot = false
+            var i = 0
+            while (i < 24) {
+                if (availableTimes[i]) { // check if room has open time slot for that day
+                    // convert i to hour from 0-12
+                    val iDiv = i / 12
+                    val AMPM = if (iDiv == 1) "PM" else "AM"
+                    val iMod = i % 12
+                    var timeStr = if (iMod == 0) "12:00" else "$iMod:00"
+                    timeStr += AMPM
+
+                    if (dateSelectButton.text.equals(todayString)) {
+
+                    } else {
+                        timeSelectButton.text = timeStr
+                    }
+                    return
+                }
+                i++
+            }
+            timeSelectButton.text = "All times booked for this day!"
+            timeSelectButton.isEnabled = false
+            timeSelectButton.setTextColor(resources.getColor(R.color.grey))
+        } else {
+            timeSelectButton.text = "12:00 AM"
+            timeSelectButton.isEnabled = true
         }
     }
 

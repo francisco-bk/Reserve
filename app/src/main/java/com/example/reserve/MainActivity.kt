@@ -34,6 +34,21 @@ class MainActivity : AppCompatActivity() {
         }.attach()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewPager.adapter = ViewPagerAdapter(this)
+
+        tabLayout = findViewById(R.id.tabLayout)
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            when (position) {
+                0 -> tab.setIcon(R.drawable.search)
+                1 -> tab.setIcon(R.drawable.star_icon)
+                2 -> tab.setIcon(R.drawable.calendar)
+                3 -> tab.setIcon(R.drawable.profile)
+            }
+        }.attach()
+    }
+
     private inner class ViewPagerAdapter(activity: MainActivity) : FragmentStateAdapter(activity) {
         override fun getItemCount(): Int {
             return NUM_PAGES
