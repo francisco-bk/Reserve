@@ -2,11 +2,18 @@ package com.example.reserve
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import okhttp3.*
+import java.io.IOException
 
 private const val NUM_PAGES = 4
 
@@ -48,6 +55,7 @@ class MainActivity : AppCompatActivity() {
             }
         }.attach()
     }
+
 
     private inner class ViewPagerAdapter(activity: MainActivity) : FragmentStateAdapter(activity) {
         override fun getItemCount(): Int {

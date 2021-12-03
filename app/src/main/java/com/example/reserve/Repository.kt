@@ -2,6 +2,8 @@ package com.example.reserve
 
 class Repository private constructor() {
     companion object {
+        const val BASE_URL = ""
+
         val reservedRooms = arrayListOf<Room>()
         val favorites = arrayListOf<Room>()
 
