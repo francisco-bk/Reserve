@@ -7,8 +7,17 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.datepicker.*
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.IOException
 import java.text.SimpleDateFormat
 
 
@@ -21,6 +30,11 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
     private lateinit var timeSelectButton: Button
     private lateinit var buildingName: TextView
     private lateinit var roomName: TextView
+    private lateinit var imageView: ImageView
+
+    private val client = OkHttpClient()
+    private val moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
+    private val reservationJsonAdapter : JsonAdapter<Reservation> = moshi.adapter(Reservation::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,12 +47,16 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
         timeSelectButton = findViewById(R.id.timeSelect)
         buildingName = findViewById(R.id.buildingName)
         roomName = findViewById(R.id.roomName)
+        imageView = findViewById(R.id.imageView)
 
+        val id = intent.extras?.getInt("id")
         val building = intent.extras?.getString("building")
         val room = intent.extras?.getString("room")
+        val image = intent.extras?.getString("image")
 
         if (building != null) buildingName.text = building
         if (room != null) roomName.text = room
+        if (image != null) Glide.with(this).load(image).into(imageView)
 
         updateReservationButton()
 
@@ -90,28 +108,45 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
         }
 
         reserveButton.setOnClickListener {
-            // store reservation data in repository
-            val roomObj = Room("ENG quad?", roomName.text.toString(), buildingName.text.toString(), false, 100, "", timeSelectButton.text.toString(), dateSelectButton.text.toString(), dow)
-            Repository.reservedRooms.add(roomObj)
-            val roomKey = getReservationKey()
+//            // store reservation data in repository
+//            val roomObj = Room(id!!, "ENG quad?", roomName.text.toString(), buildingName.text.toString(), false, 100, "", timeSelectButton.text.toString(), dateSelectButton.text.toString(), dow)
+//            Repository.reservedRooms.add(roomObj)
+//            val roomKey = getReservationKey()
+
+            // Get the hr in Int from range 1-24 (1 is 12:00 AM, 2 is 1:00 AM, etc.)
             val timeStr = timeSelectButton.text.toString()
             var hrInt = timeStr.replace(":00 AM", "").replace(":00 PM", "").toInt()
-            if (timeStr.contains("AM") && timeStr.contains("12")) hrInt = 0
+            if (timeStr.contains("AM") && timeStr.contains("12")) hrInt = 1
             else if (timeStr.contains("PM") && !timeStr.contains("12")) hrInt += 12
 
-            val availableTimes : Array<Boolean>
-            if (Repository.reservationTable.containsKey(roomKey)) {
-                availableTimes = Repository.reservationTable[roomKey]!!
-            } else {
-                availableTimes = Array(24, { i -> true}) // false is unavailable (booked)
-            }
-            availableTimes[hrInt] = false
-            Repository.reservationTable[roomKey] = availableTimes
+//            val availableTimes : Array<Boolean>
+//            if (Repository.reservationTable.containsKey(roomKey)) {
+//                availableTimes = Repository.reservationTable[roomKey]!!
+//            } else {
+//                availableTimes = Array(24, { i -> true}) // false is unavailable (booked)
+//            }
+//            availableTimes[hrInt] = false
+//            Repository.reservationTable[roomKey] = availableTimes
+//
+//            Log.d("RESERVED", "added")
+//            Log.d("RESERVED", Repository.reservedRooms.toString())
+//            Log.d("RESERVED", "KEY: " + roomKey)
+//            Log.d("RESERVED", "AVAILABILITIES: " + Repository.reservationTable[roomKey].contentToString())
 
-            Log.d("RESERVED", "added")
-            Log.d("RESERVED", Repository.reservedRooms.toString())
-            Log.d("RESERVED", "KEY: " + roomKey)
-            Log.d("RESERVED", "AVAILABILITIES: " + Repository.reservationTable[roomKey].contentToString())
+            Log.d("NETWORK_DEBUG", id.toString())
+//            val newReservation = Reservation(id!!, 5, hrInt, dateSelectButton.text.toString())
+            val newReservation = Reservation(id!!, 5, hrInt, dateSelectButton.text.toString())
+            val requestBody = reservationJsonAdapter.toJson(newReservation).toRequestBody(("application/json; charset=utf-8").toMediaType())
+            val postRequest = Request.Builder().url(Repository.BASE_URL + "reservations/").post(requestBody).build()
+            client.newCall(postRequest).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    Log.d("NETWORK_DEBUG", "Reservation POST Error: " + e.printStackTrace().toString())
+                }
+                override fun onResponse(call: Call, response: Response) {
+                    Log.d("NETWORK_DEBUG", "Reservation POST response: $response")
+                }
+            })
+
             val intent = Intent(this, MainActivity::class.java).apply {
                 // TODO: add putExtras
             }

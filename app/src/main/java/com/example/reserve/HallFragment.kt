@@ -66,13 +66,13 @@ class HallFragment : Fragment() {
         val getRequest = Request.Builder().url(Repository.BASE_URL + "rooms/").build()
         client.newCall(getRequest).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                Log.d("GET_ERROR", e.printStackTrace().toString())
+                Log.d("NETWORK DEBUG", "Room GET error: " + e.printStackTrace().toString())
             }
 
             override fun onResponse(call: Call, response: Response) {
                 response.use {
                     if (!it.isSuccessful) {
-                        Log.d("GET_ERROR", "Response unsuccessful")
+                        Log.d("NETWORK_DEBUG", "Room GET unsuccessful")
                     }
                     val roomList = roomListJsonAdapter.fromJson(response.body!!.string())!!
                     adapter = Adapter(roomList)

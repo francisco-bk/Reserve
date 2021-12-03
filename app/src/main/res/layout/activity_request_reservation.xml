@@ -10,7 +10,7 @@
         android:id="@+id/backButton"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:background="?attr/colorOnPrimary"
+        android:background="?attr/colorSurface"
         android:src="@drawable/x"
         android:layout_marginTop="20dp"
         android:layout_marginStart="20dp"
@@ -54,12 +54,13 @@
             app:cardCornerRadius="20dp">
 
             <ImageView
+                android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:layout_marginBottom="10dp"
                 android:background="@color/black"
                 android:adjustViewBounds="true"
-                android:scaleType="centerCrop" />
+                android:scaleType="matrix" />
 
         </androidx.cardview.widget.CardView>
 

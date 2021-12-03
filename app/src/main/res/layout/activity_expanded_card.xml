@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Upson 216"
-                android:textSize="24dp" />
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/buildingName"
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/divider1"
                 android:text="Availabilities"
-                android:textSize="24dp" />
+                android:textSize="24sp" />
 
             <Button
                 android:id="@+id/buttonShowAvailabilities"
@@ -90,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/divider2"
                 android:text="What this room offers"
-                android:textSize="24dp" />
+                android:textSize="24sp" />
 
         </RelativeLayout>
 
@@ -114,7 +114,7 @@
         android:layout_marginHorizontal="40dp"
         android:layout_marginVertical="20dp"
         android:paddingVertical="10dp"
-        android:text="RESERVE"
+        android:text="@string/reserve"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -138,7 +138,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginEnd="20dp"
         android:backgroundTint="?attr/colorOnPrimary"
         android:src="@drawable/star"
         app:fabSize="mini"

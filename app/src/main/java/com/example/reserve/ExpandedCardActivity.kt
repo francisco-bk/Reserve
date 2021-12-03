@@ -33,10 +33,12 @@ class ExpandedCardActivity : AppCompatActivity() {
         favoriteButtonActivated = findViewById(R.id.favoriteButtonActivated)
         favoriteButtonInactivated = findViewById(R.id.favoriteButtonInactivated)
 
+        val id = intent.extras?.getInt("id")
+        val location = intent.extras?.getString("location")
         val building = intent.extras?.getString("building")
         val roomName = intent.extras?.getString("room_name")
         val features = intent.extras?.getString("features")
-        val capacity = intent.extras?.getString("capacity")
+        val capacity = intent.extras?.getInt("capacity")
         val image = intent.extras?.getString("image")
 
 
@@ -45,7 +47,7 @@ class ExpandedCardActivity : AppCompatActivity() {
         if (image != null) Glide.with(this).load(image).into(imageView)
 
 
-        val roomObj = Room("ENG quad?", this.roomNameTV.text.toString(), buildingName.text.toString(), false, 100, "", "", "Jan 1, 2021", "Saturday")
+        val roomObj = Room(id!!, location!!, this.roomNameTV.text.toString(), buildingName.text.toString(), false, 100, "", "", "Jan 1, 2021", "Saturday")
 
         backButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java).apply {
@@ -55,8 +57,10 @@ class ExpandedCardActivity : AppCompatActivity() {
 
         reserveButton.setOnClickListener {
             val intent = Intent(this, RequestReservationActivity::class.java).apply {
+                putExtra("id", id)
                 putExtra("building", building)
                 putExtra("room", roomName)
+                putExtra("image", image)
             }
             startActivity(intent)
         }

@@ -4,6 +4,7 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Room (
+    val id : Int = -1,
     val location : String = "",
     val room_name : String = "",
     val hall : String = "",
