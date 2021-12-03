@@ -82,12 +82,22 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/dateSub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textDate"
+            android:layout_alignStart="@id/dateSelect"
+            android:layout_alignParentStart="true"
+            android:text=""
+            android:textSize="13sp" />
+
+        <TextView
             android:id="@+id/textTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/divider1"
             android:layout_alignStart="@id/timeSelect"
-            android:layout_alignParentEnd="true"
+            android:layout_toStartOf="@+id/timeSub"
             android:text="@string/time"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -95,9 +105,9 @@
         <Button
             android:id="@+id/dateSelect"
             style="?android:spinnerStyle"
-            android:layout_width="150dp"
+            android:layout_width="180dp"
             android:layout_height="50dp"
-            android:layout_below="@id/textDate"
+            android:layout_below="@id/textTime"
             android:layout_alignParentStart="true"
             android:text="Select Date"
             android:textColor="?attr/android:textColor"
@@ -107,7 +117,7 @@
         <Button
             android:id="@+id/timeSelect"
             style="?android:spinnerStyle"
-            android:layout_width="260dp"
+            android:layout_width="250dp"
             android:layout_height="50dp"
             android:layout_below="@id/textTime"
             android:layout_alignParentEnd="true"
@@ -130,7 +140,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/divider2"
-            android:text="@string/required_agreement"
+            android:text="@string/required_agreement_title"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -140,7 +150,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/titleRequiredAgree"
             android:layout_alignParentStart="true"
-            android:text="@string/i_agree_to_be_bound_by_the_policies_and_procedures_concerning_the_use_of_space_and_resources_at_cornell_university"
+            android:text="@string/required_agreement_body"
             android:textColor="@color/grey" />
 
         <CheckBox
