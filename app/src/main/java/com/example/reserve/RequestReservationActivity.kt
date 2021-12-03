@@ -40,8 +40,7 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
         if (building != null) buildingName.text = building
         if (room != null) roomName.text = room
 
-        reserveButton.isEnabled = false
-        reserveButton.setBackgroundColor(resources.getColor(R.color.grey))
+        updateReservationButton()
 
         val fragmentManager = supportFragmentManager
         val today = MaterialDatePicker.todayInUtcMilliseconds()
@@ -65,8 +64,6 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
         dateSelectButton.text = todayString
         var dow = sdf2.format(date)
 
-//        val sdfHour = SimpleDateFormat("h:00 aa")
-//        timeSelectButton.text = sdfHour.format(date + DateUtils.HOUR_IN_MILLIS)
         setTimeDisplay()
 
         datePicker.addOnPositiveButtonClickListener {
@@ -75,8 +72,8 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
             val dateInMillis = datePicker.selection!! + DateUtils.DAY_IN_MILLIS
             val sdfDay = SimpleDateFormat("EEE")
             dow = sdfDay.format(dateInMillis)
-
             setTimeDisplay()
+            updateReservationButton()
         }
 
         dateSelectButton.setOnClickListener {
@@ -93,18 +90,17 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
         }
 
         reserveButton.setOnClickListener {
-            // TODO: code cleanup eventually
-            // preliminary implementation of storing time data in repository
+            // store reservation data in repository
             val roomObj = Room("ENG quad?", roomName.text.toString(), buildingName.text.toString(),
                 timeSelectButton.text.toString(), dateSelectButton.text.toString(), dow)
             Repository.reservedRooms.add(roomObj)
             val roomKey = getReservationKey()
-            var timeStr = timeSelectButton.text.toString()
+            val timeStr = timeSelectButton.text.toString()
             var hrInt = timeStr.replace(":00 AM", "").replace(":00 PM", "").toInt()
             if (timeStr.contains("AM") && timeStr.contains("12")) hrInt = 0
             else if (timeStr.contains("PM") && !timeStr.contains("12")) hrInt += 12
 
-            var availableTimes : Array<Boolean>
+            val availableTimes : Array<Boolean>
             if (Repository.reservationTable.containsKey(roomKey)) {
                 availableTimes = Repository.reservationTable[roomKey]!!
             } else {
@@ -124,13 +120,7 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
         }
 
         checkBox.setOnClickListener {
-            if (checkBox.isChecked && timeSelectButton.isEnabled) {
-                reserveButton.isEnabled = true
-                reserveButton.setBackgroundColor(resources.getColor(R.color.red))
-            } else {
-                reserveButton.isEnabled = false
-                reserveButton.setBackgroundColor(resources.getColor(R.color.grey))
-            }
+            updateReservationButton()
         }
 
         timeSelectButton.setOnClickListener {
@@ -252,8 +242,20 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
         }
     }
 
+    /** Get reservation key to search for room in Repository.reservationTable */
     private fun getReservationKey(): String {
         return roomName.text.toString() + " - " + dateSelectButton.text.toString()
+    }
+
+    /** lock/unlock reservation button if conditions are/aren't met */
+    private fun updateReservationButton() {
+        if (checkBox.isChecked && timeSelectButton.isEnabled) {
+            reserveButton.isEnabled = true
+            reserveButton.setBackgroundColor(resources.getColor(R.color.red))
+        } else {
+            reserveButton.isEnabled = false
+            reserveButton.setBackgroundColor(resources.getColor(R.color.grey))
+        }
     }
 
     override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
