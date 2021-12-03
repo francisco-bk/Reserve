@@ -10,36 +10,32 @@
     <string name="date">Date</string>
     <string name="time">Time (One Hour)</string>
     <string name="all_booked">All booked!</string>
-    <string name="am12">12:00 AM</string>
     <string name="one_hour_reservations">One Hour Reservations</string>
     <string name="select_time">Select Time</string>
     <string name="am">AM</string>
-
-    <string-array name="Times">
-        <item>12:00 AM</item>
-        <item>1:00 AM</item>
-        <item>2:00 AM</item>
-        <item>3:00 AM</item>
-        <item>4:00 AM</item>
-        <item>5:00 AM</item>
-        <item>6:00 AM</item>
-        <item>7:00 AM</item>
-        <item>8:00 AM</item>
-        <item>9:00 AM</item>
-        <item>10:00 AM</item>
-        <item>11:00 AM</item>
-        <item>12:00 PM</item>
-        <item>1:00 PM</item>
-        <item>2:00 PM</item>
-        <item>3:00 PM</item>
-        <item>4:00 PM</item>
-        <item>5:00 PM</item>
-        <item>6:00 PM</item>
-        <item>7:00 PM</item>
-        <item>8:00 PM</item>
-        <item>9:00 PM</item>
-        <item>10:00 PM</item>
-        <item>11:00 PM</item>
-        <item>12:00 AM</item>
-    </string-array>
+    <string name="am12">12:00 AM</string>
+    <string name="am1">1:00 AM</string>
+    <string name="am2">2:00 AM</string>
+    <string name="am3">3:00 AM</string>
+    <string name="am4">4:00 AM</string>
+    <string name="am5">5:00 AM</string>
+    <string name="am6">6:00 AM</string>
+    <string name="am7">7:00 AM</string>
+    <string name="am8">8:00 AM</string>
+    <string name="am9">9:00 AM</string>
+    <string name="am10">10:00 AM</string>
+    <string name="am11">11:00 AM</string>
+    <string name="pm">PM</string>
+    <string name="pm12">12:00 PM</string>
+    <string name="pm1">1:00 PM</string>
+    <string name="pm2">2:00 PM</string>
+    <string name="pm3">3:00 PM</string>
+    <string name="pm4">4:00 PM</string>
+    <string name="pm5">5:00 PM</string>
+    <string name="pm6">6:00 PM</string>
+    <string name="pm7">7:00 PM</string>
+    <string name="pm8">8:00 PM</string>
+    <string name="pm9">9:00 PM</string>
+    <string name="pm10">10:00 PM</string>
+    <string name="pm11">11:00 PM</string>
 </resources>

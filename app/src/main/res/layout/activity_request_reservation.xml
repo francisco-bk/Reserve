@@ -97,7 +97,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/divider1"
             android:layout_alignStart="@id/timeSelect"
-            android:layout_toStartOf="@+id/timeSub"
             android:text="@string/time"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -109,7 +108,6 @@
             android:layout_height="50dp"
             android:layout_below="@id/textTime"
             android:layout_alignParentStart="true"
-            android:text="Select Date"
             android:textColor="?attr/android:textColor"
             android:textSize="16sp" />
 
@@ -123,7 +121,6 @@
             android:layout_alignParentEnd="true"
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@id/dateSelect"
-            android:text="Select Time"
             android:textColor="?attr/android:textColor"
             android:textSize="16sp" />
 

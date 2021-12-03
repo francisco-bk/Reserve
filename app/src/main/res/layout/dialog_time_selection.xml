@@ -52,7 +52,7 @@
                 android:id="@+id/am1"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="1:00 AM"
+                android:text="@string/am1"
                 style="?attr/materialButtonOutlinedStyle"/>
             <View
                 android:layout_width="10dp"
@@ -61,7 +61,7 @@
                 android:id="@+id/am2"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="2:00 AM"
+                android:text="@string/am2"
                 style="?attr/materialButtonOutlinedStyle"/>
         </TableRow>
 
@@ -71,7 +71,7 @@
                 android:id="@+id/am3"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="3:00 AM"
+                android:text="@string/am3"
                 style="?attr/materialButtonOutlinedStyle"/>
             <View
                 android:layout_width="10dp"
@@ -80,7 +80,7 @@
                 android:id="@+id/am4"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="4:00 AM"
+                android:text="@string/am4"
                 style="?attr/materialButtonOutlinedStyle"/>
             <View
                 android:layout_width="10dp"
@@ -89,7 +89,7 @@
                 android:id="@+id/am5"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="5:00 AM"
+                android:text="@string/am5"
                 style="?attr/materialButtonOutlinedStyle"/>
         </TableRow>
 
@@ -99,7 +99,7 @@
                 android:id="@+id/am6"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="6:00 AM"
+                android:text="@string/am6"
                 style="?attr/materialButtonOutlinedStyle"/>
             <View
                 android:layout_width="10dp"
@@ -108,7 +108,7 @@
                 android:id="@+id/am7"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="7:00 AM"
+                android:text="@string/am7"
                 style="?attr/materialButtonOutlinedStyle"/>
             <View
                 android:layout_width="10dp"
@@ -117,7 +117,7 @@
                 android:id="@+id/am8"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="8:00 AM"
+                android:text="@string/am8"
                 style="?attr/materialButtonOutlinedStyle"/>
         </TableRow>
 
@@ -127,7 +127,7 @@
                 android:id="@+id/am9"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="9:00 AM"
+                android:text="@string/am9"
                 style="?attr/materialButtonOutlinedStyle"/>
             <View
                 android:layout_width="10dp"
@@ -136,7 +136,7 @@
                 android:id="@+id/am10"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="10:00 AM"
+                android:text="@string/am10"
                 style="?attr/materialButtonOutlinedStyle"/>
             <View
                 android:layout_width="10dp"
@@ -145,14 +145,14 @@
                 android:id="@+id/am11"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="11:00 AM"
+                android:text="@string/am11"
                 style="?attr/materialButtonOutlinedStyle"/>
         </TableRow>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="PM"
+            android:text="@string/pm"
             android:textSize="20sp"
             android:textStyle="bold"
             android:paddingHorizontal="15dp"/>
@@ -163,7 +163,7 @@
                 android:id="@+id/pm12"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="12:00 PM"
+                android:text="@string/pm12"
                 style="?attr/materialButtonOutlinedStyle"/>
             <View
                 android:layout_width="10dp"
@@ -172,7 +172,7 @@
                 android:id="@+id/pm1"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="1:00 PM"
+                android:text="@string/pm1"
                 style="?attr/materialButtonOutlinedStyle"/>
             <View
                 android:layout_width="10dp"
@@ -181,7 +181,7 @@
                 android:id="@+id/pm2"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="2:00 PM"
+                android:text="@string/pm2"
                 style="?attr/materialButtonOutlinedStyle"/>
         </TableRow>
 
@@ -191,7 +191,7 @@
                 android:id="@+id/pm3"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="3:00 PM"
+                android:text="@string/pm3"
                 style="?attr/materialButtonOutlinedStyle"/>
             <View
                 android:layout_width="10dp"
@@ -200,7 +200,7 @@
                 android:id="@+id/pm4"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="4:00 PM"
+                android:text="@string/pm4"
                 style="?attr/materialButtonOutlinedStyle"/>
             <View
                 android:layout_width="10dp"
@@ -209,7 +209,7 @@
                 android:id="@+id/pm5"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="5:00 PM"
+                android:text="@string/pm5"
                 style="?attr/materialButtonOutlinedStyle"/>
         </TableRow>
 
@@ -219,7 +219,7 @@
                 android:id="@+id/pm6"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="6:00 PM"
+                android:text="@string/pm6"
                 style="?attr/materialButtonOutlinedStyle"/>
             <View
                 android:layout_width="10dp"
@@ -228,7 +228,7 @@
                 android:id="@+id/pm7"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="7:00 PM"
+                android:text="@string/pm7"
                 style="?attr/materialButtonOutlinedStyle"/>
             <View
                 android:layout_width="10dp"
@@ -237,7 +237,7 @@
                 android:id="@+id/pm8"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="8:00 PM"
+                android:text="@string/pm8"
                 style="?attr/materialButtonOutlinedStyle"/>
         </TableRow>
 
@@ -247,7 +247,7 @@
                 android:id="@+id/pm9"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="9:00 PM"
+                android:text="@string/pm9"
                 style="?attr/materialButtonOutlinedStyle"/>
             <View
                 android:layout_width="10dp"
@@ -256,7 +256,7 @@
                 android:id="@+id/pm10"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="10:00 PM"
+                android:text="@string/pm10"
                 style="?attr/materialButtonOutlinedStyle"/>
             <View
                 android:layout_width="10dp"
@@ -265,7 +265,7 @@
                 android:id="@+id/pm11"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="11:00 PM"
+                android:text="@string/pm11"
                 style="?attr/materialButtonOutlinedStyle"/>
         </TableRow>
 
