@@ -5,38 +5,47 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ExpandedCardActivity : AppCompatActivity() {
 
     private lateinit var backButton: FloatingActionButton
     private lateinit var reserveButton: Button
+    private lateinit var imageView: ImageView
     private lateinit var favoriteButtonActivated: FloatingActionButton
     private lateinit var favoriteButtonInactivated: FloatingActionButton
 
-    private lateinit var roomName: TextView
+    private lateinit var roomNameTV: TextView
     private lateinit var buildingName: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_expanded_card)
 
-        roomName = findViewById(R.id.roomName)
+        roomNameTV = findViewById(R.id.roomName)
         buildingName = findViewById(R.id.buildingName)
         backButton = findViewById(R.id.backButton)
         reserveButton = findViewById(R.id.reserveButton)
+        imageView = findViewById(R.id.image)
         favoriteButtonActivated = findViewById(R.id.favoriteButtonActivated)
         favoriteButtonInactivated = findViewById(R.id.favoriteButtonInactivated)
 
         val building = intent.extras?.getString("building")
-        val room = intent.extras?.getString("room")
+        val roomName = intent.extras?.getString("room_name")
+        val features = intent.extras?.getString("features")
+        val capacity = intent.extras?.getString("capacity")
+        val image = intent.extras?.getString("image")
+
 
         if (building != null) buildingName.text = building
-        if (room != null) roomName.text = room
+        if (roomName != null) this.roomNameTV.text = roomName
+        if (image != null) Glide.with(this).load(image).into(imageView)
 
 
-        val roomObj = Room("ENG quad?", roomName.text.toString(), buildingName.text.toString(), false, 100, "", "", "Jan 1, 2021", "Saturday")
+        val roomObj = Room("ENG quad?", this.roomNameTV.text.toString(), buildingName.text.toString(), false, 100, "", "", "Jan 1, 2021", "Saturday")
 
         backButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java).apply {
@@ -47,7 +56,7 @@ class ExpandedCardActivity : AppCompatActivity() {
         reserveButton.setOnClickListener {
             val intent = Intent(this, RequestReservationActivity::class.java).apply {
                 putExtra("building", building)
-                putExtra("room", room)
+                putExtra("room", roomName)
             }
             startActivity(intent)
         }
@@ -55,7 +64,7 @@ class ExpandedCardActivity : AppCompatActivity() {
         // favorite button implementation
         var isFavorite = false
         for (favorite in Repository.favorites) {
-            if (favorite.room_name == roomName.text.toString()) {
+            if (favorite.room_name == this.roomNameTV.text.toString()) {
                 isFavorite = true
             }
         }

@@ -11,6 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:background="@android:color/black"
+        android:adjustViewBounds="true"
+        android:scaleType="matrix"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

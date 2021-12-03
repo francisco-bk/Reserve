@@ -8,8 +8,7 @@ class Repository private constructor() {
         val favorites = arrayListOf<Room>()
 
         /** Key in format of "ROOMNAME - DATE"
-         *  Value: array of len 24 representing 24 hrs of day, false if time is unavailable.
-         */
+         *  Value: array of len 24 representing 24 hrs of day, false if time is unavailable. */
         val reservationTable = hashMapOf<String, Array<Boolean>>() // k
     }
 }

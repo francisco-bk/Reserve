@@ -3,7 +3,7 @@ package com.example.reserve
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class Room(
+data class Room (
     val location : String = "",
     val room_name : String = "",
     val hall : String = "",
