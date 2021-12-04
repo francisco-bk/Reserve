@@ -38,4 +38,5 @@
     <string name="pm9">9:00 PM</string>
     <string name="pm10">10:00 PM</string>
     <string name="pm11">11:00 PM</string>
+    <string name="cancel">cancel</string>
 </resources>
