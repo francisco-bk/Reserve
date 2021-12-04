@@ -3,7 +3,8 @@
 
 ## Repo Links ##
 [Android Repo]https://github.com/FranciscoASC21/Reserve/<br>
-[Backend Repo](INSERT BACKEND REPO URL HERE)
+[Backend Repo]https://github.com/Jensen615/reserve-backend<br>
+[Backend API]https://docs.google.com/document/d/1lCx80UllNHCadULUhduSKDOk36jMQw_mKBUw7UsajdY/edit?usp=sharing
 
 ## App Screenshots ##
 ![alt text](INSERT CASE SENSITIVE IMAGE URL HERE)
