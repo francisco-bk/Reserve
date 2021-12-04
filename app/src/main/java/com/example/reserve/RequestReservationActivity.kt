@@ -12,6 +12,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.datepicker.*
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
@@ -35,6 +36,9 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
     private val moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
     private val reservationJsonAdapter : JsonAdapter<Reservation> = moshi.adapter(Reservation::class.java)
     private val timeJsonAdapter : JsonAdapter<Time> = moshi.adapter(Time::class.java)
+
+    private val type = Types.newParameterizedType(List::class.java, Time::class.java)
+    private val timeListJsonAdapter = moshi.adapter<List<Time>>(type)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -214,15 +218,19 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
                         if (!it.isSuccessful) {
                             Log.d("NETWORK_DEBUG", "Time table GET unsuccessful: $response")
                         }
-                        val timeTableObj = timeJsonAdapter.fromJson(response.body!!.string())!!
-                        val timeTable = timeToList(timeTableObj)
-                        for ((i, isTimeUnavailable) in timeTable.withIndex()) {
-                            val button = timeButtons[i]
-                            if (isTimeUnavailable) {
-                                button.isEnabled = false
-                                button.setTextColor(resources.getColor(R.color.grey))
-                            } else {
-                                button.isEnabled = true
+                        val timeTables = timeListJsonAdapter.fromJson(response.body!!.string())!!
+                        for (timeTableObj in timeTables) {
+                            if (timeTableObj.date.equals(selectedDate) && timeTableObj.room_id == id) {
+                                val timeTable = timeToList(timeTableObj)
+                                for ((i, isTimeUnavailable) in timeTable.withIndex()) {
+                                    val button = timeButtons[i]
+                                    if (isTimeUnavailable) {
+                                        button.isEnabled = false
+                                        button.setTextColor(resources.getColor(R.color.grey))
+                                    } else {
+                                        button.isEnabled = true
+                                    }
+                                }
                             }
                         }
                     }
