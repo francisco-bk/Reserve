@@ -119,11 +119,11 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
         }
 
         reserveButton.setOnClickListener {
-            // store reservation data in repository (LOCAL)
+            // LOCAL RESERVERVATION STORAGE BEGIN
             val roomObj = Room(id!!, "ENG quad?", roomName.text.toString(), buildingName.text.toString(), false, 100, "", timeSelectButton.text.toString(), dateSelectButton.text.toString(), dow)
             Repository.reservedRooms.add(roomObj)
             val roomKey = getReservationKey()
-            // LOCAL SEGMENT END
+            // LOCAL RESERVERVATION STORAGE END
 
             // Get the hr in Int from range 0-23 (1 is 12:00 AM, 2 is 1:00 AM, etc.)
             val timeStr = timeSelectButton.text.toString()
@@ -132,7 +132,7 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
             else if (timeStr.contains("PM") && !timeStr.contains("12")) hrInt += 12
             Log.d("HOURINT", hrInt.toString())
 
-            // LOCAL RESERVE BEGIN
+            // LOCAL RESERVERVATION STORAGE BEGIN
             val availableTimes : Array<Boolean>
             if (Repository.reservationTable.containsKey(roomKey)) {
                 availableTimes = Repository.reservationTable[roomKey]!!
@@ -146,7 +146,7 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
             Log.d("RESERVED", Repository.reservedRooms.toString())
             Log.d("RESERVED", "KEY: " + roomKey)
             Log.d("RESERVED", "AVAILABILITIES: " + Repository.reservationTable[roomKey].contentToString())
-            // LOCAL RESERVE END
+            // LOCAL RESERVATION STORAGE END
 
             // hrInt 1-24
             val hrInt1 = hrInt + 1
