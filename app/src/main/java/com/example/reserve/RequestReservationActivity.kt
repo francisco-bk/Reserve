@@ -311,7 +311,6 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
             timeSelectButton.text = getString(R.string.am12)
         }
         timeSelectButton.isEnabled = true
-        timeSelectButton.setTextColor(resources.getColor(R.color.black))
     }
 
     /** Get reservation key to search for room in Repository.reservationTable */
