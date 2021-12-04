@@ -13,11 +13,24 @@ import com.bumptech.glide.Glide
 import android.widget.Toast
 
 import android.content.DialogInterface
-
-
+import android.util.Log
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.IOException
 
 
 class BookingAdapter(private var rooms: List<Room>) : RecyclerView.Adapter<BookingAdapter.ViewHolder>()  {
+
+    private val client = OkHttpClient()
+    private val moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
+    private val roomListType = Types.newParameterizedType(List::class.java, Room::class.java)
+    private val roomListJsonAdapter : JsonAdapter<List<Room>> = moshi.adapter(roomListType)
+    private val reservationJsonAdapter : JsonAdapter<Reservation> = moshi.adapter(Reservation::class.java)
 
     class ViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.hallTitle)
