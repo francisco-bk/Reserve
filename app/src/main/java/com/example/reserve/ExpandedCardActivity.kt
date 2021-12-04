@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import org.w3c.dom.Text
 
 class ExpandedCardActivity : AppCompatActivity() {
 
@@ -20,6 +21,8 @@ class ExpandedCardActivity : AppCompatActivity() {
 
     private lateinit var roomNameTV: TextView
     private lateinit var buildingName: TextView
+
+    private lateinit var info: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +36,8 @@ class ExpandedCardActivity : AppCompatActivity() {
         favoriteButtonActivated = findViewById(R.id.favoriteButtonActivated)
         favoriteButtonInactivated = findViewById(R.id.favoriteButtonInactivated)
 
+        info = findViewById(R.id.info)
+
         val id = intent.extras?.getInt("id")
         val location = intent.extras?.getString("location")
         val building = intent.extras?.getString("building")
@@ -40,6 +45,13 @@ class ExpandedCardActivity : AppCompatActivity() {
         val features = intent.extras?.getBoolean("features")
         val capacity = intent.extras?.getInt("capacity")
         val image = intent.extras?.getString("image")
+
+        if (features!!) {
+            info.text = "Capacity: " + capacity.toString() + "\n \n" + "This room has a whiteboard, and a projector."
+        }
+        else {
+            info.text = "Capacity: " + capacity.toString() + "\n"
+        }
 
 
         if (building != null) buildingName.text = building
