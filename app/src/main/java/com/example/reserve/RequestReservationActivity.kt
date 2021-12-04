@@ -14,6 +14,9 @@ import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -122,11 +125,12 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
             val roomKey = getReservationKey()
             // LOCAL SEGMENT END
 
-            // Get the hr in Int from range 1-24 (1 is 12:00 AM, 2 is 1:00 AM, etc.)
+            // Get the hr in Int from range 0-23 (1 is 12:00 AM, 2 is 1:00 AM, etc.)
             val timeStr = timeSelectButton.text.toString()
             var hrInt = timeStr.replace(":00 AM", "").replace(":00 PM", "").toInt()
-            if (timeStr.contains("AM") && timeStr.contains("12")) hrInt = 1
+            if (timeStr.contains("AM") && timeStr.contains("12")) hrInt = 0
             else if (timeStr.contains("PM") && !timeStr.contains("12")) hrInt += 12
+            Log.d("HOURINT", hrInt.toString())
 
             // LOCAL RESERVE BEGIN
             val availableTimes : Array<Boolean>
@@ -144,7 +148,9 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
             Log.d("RESERVED", "AVAILABILITIES: " + Repository.reservationTable[roomKey].contentToString())
             // LOCAL RESERVE END
 
-            val newReservation = Reservation(id!!, 5, hrInt, selectedDate)
+            // hrInt 1-24
+            val hrInt1 = hrInt + 1
+            val newReservation = Reservation(id!!, 5, hrInt1, selectedDate)
             val requestBody = reservationJsonAdapter.toJson(newReservation).toRequestBody(("application/json; charset=utf-8").toMediaType())
             val postRequest = Request.Builder().url(Repository.BASE_URL + "reservations/").post(requestBody).build()
             client.newCall(postRequest).enqueue(object : Callback {
@@ -207,81 +213,42 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
             }
 
             // Grey out specific time button if time slot is reserved for that day (NETWORK)
-//            var j = 1
-//            var timeArray : ArrayList<Boolean> = ArrayList()
-//            while (j < 25) {
-//                val getRequest = Request.Builder()
-//                    .url(Repository.BASE_URL + "times/" + id + "/" + selectedDate + "/" + j + "/").build()
-//                Log.d("THISISJ", j.toString())
-//                client.newCall(getRequest).enqueue(object : Callback {
-//                    override fun onFailure(call: Call, e: IOException) {
-//                        Log.d(
-//                            "NETWORK DEBUG",
-//                            "Time table GET error: " + e.printStackTrace().toString()
-//                        )
-//                    }
-//
-//                    override fun onResponse(call: Call, response: Response) {
-//                        response.use {
-//                            if (!it.isSuccessful) {
-//                                Log.d("NETWORK_DEBUG", "Time table GET unsuccessful: $response")
-//                            }
-//                            val timeTable = timeJsonAdapter.fromJson(response.body!!.string())!!
-//                            if (timeTable.error.equals("")) {
-//                                timeArray.add(true)
-//                            } else {
-//                                timeArray.add(false)
-//                            }
-////                            val timeTables =
-////                                timeListJsonAdapter.fromJson(response.body!!.string())!!
-////                            for (timeTableObj in timeTables) {
-////                                if (timeTableObj.date.equals(selectedDate) && timeTableObj.room_id == id) {
-////                                    val timeTable = timeToList(timeTableObj)
-////                                    Log.d("NETWORK_DEBUG", timeTable.toString())
-////                                    runOnUiThread {
-////                                        for ((i, isTimeUnavailable) in timeTable.withIndex()) {
-////                                            val button = timeButtons[i]
-////                                            if (isTimeUnavailable) {
-////                                                button.isEnabled = false
-////                                                button.setTextColor(resources.getColor(R.color.grey))
-////                                            } else {
-////                                                button.isEnabled = true
-////                                            }
-////                                        }
-////                                    }
-////                                }
-////                            }
-//                        }
-//                        j++
-//                    }
-//                })
-//            }
-//            val i = 0
-//            while (i < 24) {
-//                val button = timeButtons[i]
-//                if (timeArray[i]) {
-//                    button.isEnabled = false
-//                    button.setTextColor(resources.getColor(R.color.grey))
-//                } else {
-//                    button.isEnabled = true
-//                }
-//            }
-
+            var j = 1
+            var timeMap : HashMap<Int, Boolean> = HashMap()
+            while (j < 25) {
+                getTimeTable(j, id!!, selectedDate, timeMap)
+                j++
+            }
+            Thread.sleep(1_000)
+            Log.d("YES", "FINISHED")
+            var i = 0
+            while (i < 24) {
+                val button = timeButtons[i]
+                var k = i + 1
+                if (timeMap.get(k) == true) {
+                    button.isEnabled = false
+                    button.setTextColor(resources.getColor(R.color.grey))
+                } else {
+                    button.isEnabled = true
+                }
+                i++
+            }
+            Log.d("YES", "FINISHED2")
 
             // Grey out specific time button if time slot is reserved for that day (LOCAL)
-            val key = getReservationKey()
-            if (Repository.reservationTable.containsKey(key)) {
-                val availableTimes = Repository.reservationTable[key]!!
-                for ((i, isTimeAvailable) in availableTimes.withIndex()) {
-                    val button = timeButtons[i]
-                    if (isTimeAvailable) {
-                        button.isEnabled = true
-                    } else {
-                        button.isEnabled = false
-                        button.setTextColor(resources.getColor(R.color.grey))
-                    }
-                }
-            }
+//            val key = getReservationKey()
+//            if (Repository.reservationTable.containsKey(key)) {
+//                val availableTimes = Repository.reservationTable[key]!!
+//                for ((i, isTimeAvailable) in availableTimes.withIndex()) {
+//                    val button = timeButtons[i]
+//                    if (isTimeAvailable) {
+//                        button.isEnabled = true
+//                    } else {
+//                        button.isEnabled = false
+//                        button.setTextColor(resources.getColor(R.color.grey))
+//                    }
+//                }
+//            }
 
             // Grey out all individual time buttons before current time if today is selected
             val dateMillis = System.currentTimeMillis()
@@ -400,5 +367,36 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
             time.t23,
             time.t24
         )
+    }
+
+    private fun getTimeTable(j: Int, id : Int, selectedDate: String, timeMap: HashMap<Int, Boolean>) {
+        runBlocking {
+            val job = launch {
+                val getRequest = Request.Builder()
+                    .url(Repository.BASE_URL + "times/" + id + "/" + selectedDate + "/" + j + "/").build()
+                client.newCall(getRequest).enqueue(object : Callback {
+                    override fun onFailure(call: Call, e: IOException) {
+                        Log.d(
+                            "NETWORK DEBUG",
+                            "Time table GET error: " + e.printStackTrace().toString()
+                        )
+                    }
+
+                    override fun onResponse(call: Call, response: Response) {
+                        response.use {
+                            if (!it.isSuccessful) {
+                                Log.d("THISISJ", j.toString())
+                                Log.d("NETWORK_DEBUG", "Time table GET unsuccessful: $response")
+                                timeMap.put(j, false)
+                            } else {
+                                Log.d("THISISJ", j.toString())
+                                timeMap.put(j, true)
+                            }
+                        }
+                    }
+                })
+            }
+            job.join()
+        }
     }
 }
