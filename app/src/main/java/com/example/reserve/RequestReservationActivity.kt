@@ -60,6 +60,10 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
         val building = intent.extras?.getString("building")
         val room = intent.extras?.getString("room")
         val image = intent.extras?.getString("image")
+        val location = intent.extras?.getString("location")
+        val roomNameText = intent.extras?.getString("room_name")
+        val features = intent.extras?.getBoolean("features")
+        val capacity = intent.extras?.getInt("capacity")
 
         if (building != null) buildingName.text = building
         if (room != null) roomName.text = room
@@ -112,18 +116,23 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
         backButton.setOnClickListener {
             val intent = Intent(this, ExpandedCardActivity::class.java).apply {
                 // TODO: add putExtras
+                putExtra("id", id)
+                putExtra("location", location)
                 putExtra("building", building)
-                putExtra("room", room)
+                putExtra("room_name", roomNameText)
+                putExtra("features", features)
+                putExtra("capacity", capacity)
+                putExtra("image", image)
             }
             startActivity(intent)
         }
 
         reserveButton.setOnClickListener {
-            // LOCAL RESERVERVATION STORAGE BEGIN
+            // LOCAL RESERVATION STORAGE BEGIN
             val roomObj = Room(id!!, "ENG quad?", roomName.text.toString(), buildingName.text.toString(), false, 100, "", timeSelectButton.text.toString(), dateSelectButton.text.toString(), dow)
             Repository.reservedRooms.add(roomObj)
             val roomKey = getReservationKey()
-            // LOCAL RESERVERVATION STORAGE END
+            // LOCAL RESERVATION STORAGE END
 
             // Get the hr in Int from range 0-23 (1 is 12:00 AM, 2 is 1:00 AM, etc.)
             val timeStr = timeSelectButton.text.toString()
@@ -132,7 +141,7 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
             else if (timeStr.contains("PM") && !timeStr.contains("12")) hrInt += 12
             Log.d("HOURINT", hrInt.toString())
 
-            // LOCAL RESERVERVATION STORAGE BEGIN
+            // LOCAL RESERVATION STORAGE BEGIN
             val availableTimes : Array<Boolean>
             if (Repository.reservationTable.containsKey(roomKey)) {
                 availableTimes = Repository.reservationTable[roomKey]!!
@@ -163,7 +172,13 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
             })
 
             val intent = Intent(this, MainActivity::class.java).apply {
-                // TODO: add putExtras
+                putExtra("id", id)
+                putExtra("location", location)
+                putExtra("building", building)
+                putExtra("room_name", roomNameText)
+                putExtra("features", features)
+                putExtra("capacity", capacity)
+                putExtra("image", image)
             }
             startActivity(intent)
         }

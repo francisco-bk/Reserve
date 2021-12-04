@@ -63,6 +63,13 @@ class ExpandedCardActivity : AppCompatActivity() {
 
         backButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java).apply {
+                putExtra("id", id)
+                putExtra("building", building)
+                putExtra("room", roomName)
+                putExtra("image", image)
+                putExtra("capacity", capacity)
+                putExtra("features", features)
+                putExtra("location", location)
             }
             startActivity(intent)
         }
@@ -73,6 +80,9 @@ class ExpandedCardActivity : AppCompatActivity() {
                 putExtra("building", building)
                 putExtra("room", roomName)
                 putExtra("image", image)
+                putExtra("capacity", capacity)
+                putExtra("features", features)
+                putExtra("location", location)
             }
             startActivity(intent)
         }
