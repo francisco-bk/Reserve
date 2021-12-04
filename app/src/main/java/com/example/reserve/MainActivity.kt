@@ -15,7 +15,7 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.*
 import java.io.IOException
 
-private const val NUM_PAGES = 4
+private const val NUM_PAGES = 3
 
 class MainActivity : AppCompatActivity() {
 
@@ -66,7 +66,6 @@ class MainActivity : AppCompatActivity() {
             return when (position) {
                 1 -> FavoritesFragment.newInstance()
                 2 -> CalendarFragment.newInstance()
-                3 -> ProfileFragment.newInstance()
                 else -> HomeFragment.newInstance()
             }
         }

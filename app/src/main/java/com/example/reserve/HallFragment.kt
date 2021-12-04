@@ -23,11 +23,15 @@ class HallFragment : Fragment() {
     private lateinit var layoutManager : LinearLayoutManager
     private val roomList = mutableListOf<Room>()
 
+    private val locationArr = arrayOf('C', 'N', 'W', 'E')
+
     private val client = OkHttpClient()
     private val moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
     private val roomJsonAdapter : JsonAdapter<Room> = moshi.adapter(Room::class.java)
     private val roomListType = Types.newParameterizedType(List::class.java, Room::class.java)
     private val roomListJsonAdapter : JsonAdapter<List<Room>> = moshi.adapter(roomListType)
+
+    private var index: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,14 +45,10 @@ class HallFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.recyclerView)
 
-        // temp data being added, waiting for backend
-//        for(i in 1..40) {
-//            roomList.add(Room("West", "UPS" + (i+200).toString(), "Upson", "", "11/20/2021", "Saturday"))
-//        }
-
-//        adapter = Adapter(roomList)
-//        recyclerView.adapter = adapter
         layoutManager = LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
+
+
+
         populateRepository()
 
         return view
@@ -56,9 +56,9 @@ class HallFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() =
+        fun newInstance(position: Int) =
             HallFragment().apply {
-
+                index = position
             }
     }
 
@@ -75,7 +75,16 @@ class HallFragment : Fragment() {
                         Log.d("NETWORK_DEBUG", "Room GET unsuccessful: $response")
                     }
                     val roomList = roomListJsonAdapter.fromJson(response.body!!.string())!!
-                    adapter = Adapter(roomList)
+
+                    var sortedRoomList = mutableListOf<Room>()
+
+                    for (room in roomList) {
+                        if (room.location[0] == locationArr[index]){
+                            sortedRoomList.add(room)
+                        }
+                    }
+
+                    adapter = Adapter(sortedRoomList)
                     activity!!.runOnUiThread {
                         recyclerView.adapter = adapter
                         recyclerView.layoutManager = layoutManager

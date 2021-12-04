@@ -29,7 +29,6 @@ class Adapter(private var rooms: List<Room>) : RecyclerView.Adapter<Adapter.View
 
         holder.title.text = room.hall
         holder.text.text = room.room_name
-        holder.image.setImageResource(R.drawable.upson)
         Glide.with(context).load(room.image).into(holder.image)
 
         holder.itemView.setOnClickListener {

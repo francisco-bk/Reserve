@@ -52,7 +52,7 @@ class HomeFragment : Fragment() {
         }
 
         override fun createFragment(position: Int): Fragment {
-            return HallFragment.newInstance()
+            return HallFragment.newInstance(position)
         }
     }
 }

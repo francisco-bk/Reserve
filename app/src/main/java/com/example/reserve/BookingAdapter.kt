@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 
 class BookingAdapter(private var rooms: List<Room>) : RecyclerView.Adapter<BookingAdapter.ViewHolder>()  {
 
@@ -28,9 +29,9 @@ class BookingAdapter(private var rooms: List<Room>) : RecyclerView.Adapter<Booki
         val room = rooms[position]
         val context = holder.itemView.context
 
-        holder.title.text = room.hall + " " + room.room.filter { it.isDigit() }
+        holder.title.text = room.hall + " " + room.room_name.filter { it.isDigit() }
         holder.time.text = room.time
-        holder.image.setImageResource(R.drawable.upson)
+        Glide.with(context).load(room.image).into(holder.image)
         holder.dow.text = room.dow.uppercase()
         holder.date.text = room.date.dropLast(4).filter { it.isDigit() }
 
