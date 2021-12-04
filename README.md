@@ -7,12 +7,12 @@
 [Backend API]https://docs.google.com/document/d/1lCx80UllNHCadULUhduSKDOk36jMQw_mKBUw7UsajdY/edit?usp=sharing
 
 ## App Screenshots ##
-![alt text](INSERT CASE SENSITIVE IMAGE URL HERE)
-![alt text](INSERT CASE SENSITIVE IMAGE URL HERE)
-![alt text](INSERT CASE SENSITIVE IMAGE URL HERE)
+![alt text](![image](https://user-images.githubusercontent.com/91110564/144696752-dbe1df49-0c6e-4fe2-bab5-d87c961f6d5f.png))
+![alt text](![image](https://user-images.githubusercontent.com/91110564/144696760-3ee9961f-ec49-4ad3-8c2e-33d2403480dd.png))
+![alt text](![image](https://user-images.githubusercontent.com/91110564/144696777-3b6e95e8-eac9-4838-bfc6-182293abbccf.png))
 
 ## App Description ##
-Reserve allows users to search for rooms to reserve on Cornell's Central, West, North, and East campuses. Users can select a room and access information such as its capacity and images of the room if available. Users can perform a mock 1 hour booking of a room using our intuitive reservation process. Users can favorite their favorite rooms and view them in a separate tab. Users can view their current bookings in the bookings tab.
+Reserve allows users to search for rooms to reserve on Cornell's Central, West, North, and East campuses. Users can select a room and access information such as its capacity and images of the room if available. Users can perform a mock 1 hour booking of a room using our intuitive reservation process. Users can favorite their favorite rooms and view them in a separate tab. Users can view their current bookings in the bookings tab. We also have day and night mode!
 
 ## Addressing Requirements: ##
 
