@@ -207,50 +207,81 @@ class RequestReservationActivity : AppCompatActivity(), AdapterView.OnItemSelect
             }
 
             // Grey out specific time button if time slot is reserved for that day (NETWORK)
-            val getRequest = Request.Builder().url(Repository.BASE_URL + "times/").build()
-            client.newCall(getRequest).enqueue(object : Callback {
-                override fun onFailure(call: Call, e: IOException) {
-                    Log.d("NETWORK DEBUG", "Time table GET error: " + e.printStackTrace().toString())
-                }
-
-                override fun onResponse(call: Call, response: Response) {
-                    response.use {
-                        if (!it.isSuccessful) {
-                            Log.d("NETWORK_DEBUG", "Time table GET unsuccessful: $response")
-                        }
-                        val timeTables = timeListJsonAdapter.fromJson(response.body!!.string())!!
-                        for (timeTableObj in timeTables) {
-                            if (timeTableObj.date.equals(selectedDate) && timeTableObj.room_id == id) {
-                                val timeTable = timeToList(timeTableObj)
-                                for ((i, isTimeUnavailable) in timeTable.withIndex()) {
-                                    val button = timeButtons[i]
-                                    if (isTimeUnavailable) {
-                                        button.isEnabled = false
-                                        button.setTextColor(resources.getColor(R.color.grey))
-                                    } else {
-                                        button.isEnabled = true
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            })
-
-            // Grey out specific time button if time slot is reserved for that day (LOCAL)
-//            val key = getReservationKey()
-//            if (Repository.reservationTable.containsKey(key)) {
-//                val availableTimes = Repository.reservationTable[key]!!
-//                for ((i, isTimeAvailable) in availableTimes.withIndex()) {
-//                    val button = timeButtons[i]
-//                    if (isTimeAvailable) {
-//                        button.isEnabled = true
-//                    } else {
-//                        button.isEnabled = false
-//                        button.setTextColor(resources.getColor(R.color.grey))
+//            var j = 1
+//            var timeArray : ArrayList<Boolean> = ArrayList()
+//            while (j < 25) {
+//                val getRequest = Request.Builder()
+//                    .url(Repository.BASE_URL + "times/" + id + "/" + selectedDate + "/" + j + "/").build()
+//                Log.d("THISISJ", j.toString())
+//                client.newCall(getRequest).enqueue(object : Callback {
+//                    override fun onFailure(call: Call, e: IOException) {
+//                        Log.d(
+//                            "NETWORK DEBUG",
+//                            "Time table GET error: " + e.printStackTrace().toString()
+//                        )
 //                    }
+//
+//                    override fun onResponse(call: Call, response: Response) {
+//                        response.use {
+//                            if (!it.isSuccessful) {
+//                                Log.d("NETWORK_DEBUG", "Time table GET unsuccessful: $response")
+//                            }
+//                            val timeTable = timeJsonAdapter.fromJson(response.body!!.string())!!
+//                            if (timeTable.error.equals("")) {
+//                                timeArray.add(true)
+//                            } else {
+//                                timeArray.add(false)
+//                            }
+////                            val timeTables =
+////                                timeListJsonAdapter.fromJson(response.body!!.string())!!
+////                            for (timeTableObj in timeTables) {
+////                                if (timeTableObj.date.equals(selectedDate) && timeTableObj.room_id == id) {
+////                                    val timeTable = timeToList(timeTableObj)
+////                                    Log.d("NETWORK_DEBUG", timeTable.toString())
+////                                    runOnUiThread {
+////                                        for ((i, isTimeUnavailable) in timeTable.withIndex()) {
+////                                            val button = timeButtons[i]
+////                                            if (isTimeUnavailable) {
+////                                                button.isEnabled = false
+////                                                button.setTextColor(resources.getColor(R.color.grey))
+////                                            } else {
+////                                                button.isEnabled = true
+////                                            }
+////                                        }
+////                                    }
+////                                }
+////                            }
+//                        }
+//                        j++
+//                    }
+//                })
+//            }
+//            val i = 0
+//            while (i < 24) {
+//                val button = timeButtons[i]
+//                if (timeArray[i]) {
+//                    button.isEnabled = false
+//                    button.setTextColor(resources.getColor(R.color.grey))
+//                } else {
+//                    button.isEnabled = true
 //                }
 //            }
+
+
+            // Grey out specific time button if time slot is reserved for that day (LOCAL)
+            val key = getReservationKey()
+            if (Repository.reservationTable.containsKey(key)) {
+                val availableTimes = Repository.reservationTable[key]!!
+                for ((i, isTimeAvailable) in availableTimes.withIndex()) {
+                    val button = timeButtons[i]
+                    if (isTimeAvailable) {
+                        button.isEnabled = true
+                    } else {
+                        button.isEnabled = false
+                        button.setTextColor(resources.getColor(R.color.grey))
+                    }
+                }
+            }
 
             // Grey out all individual time buttons before current time if today is selected
             val dateMillis = System.currentTimeMillis()

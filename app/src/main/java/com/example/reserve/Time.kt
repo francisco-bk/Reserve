@@ -30,5 +30,6 @@ data class Time (
     val t23 : Boolean = false,
     val t24 : Boolean = false,
     val date: String  = "",
-    val room_id : Int = -1
+    val room_id : Int = -1,
+    val error : String = ""
 )

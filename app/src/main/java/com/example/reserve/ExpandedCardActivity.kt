@@ -37,7 +37,7 @@ class ExpandedCardActivity : AppCompatActivity() {
         val location = intent.extras?.getString("location")
         val building = intent.extras?.getString("building")
         val roomName = intent.extras?.getString("room_name")
-        val features = intent.extras?.getString("features")
+        val features = intent.extras?.getBoolean("features")
         val capacity = intent.extras?.getInt("capacity")
         val image = intent.extras?.getString("image")
 
